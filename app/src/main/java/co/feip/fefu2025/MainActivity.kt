@@ -1,47 +1,33 @@
 package co.feip.fefu2025
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import co.feip.fefu2025.ui.theme.FEFU2025AndroidBaseRepoTheme
 
 class MainActivity : ComponentActivity() {
+    private var counter = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            FEFU2025AndroidBaseRepoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "FEIP",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        val textView: TextView = findViewById(R.id.textViewClick)
+        val button: Button = findViewById(R.id.button)
+
+        counter = savedInstanceState?.getInt("counter", 0) ?: 0
+        textView.text = "У вас кликов: $counter"
+
+        button.setOnClickListener{
+            counter++
+            textView.text = "У вас кликов: $counter"
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FEFU2025AndroidBaseRepoTheme {
-        Greeting("Android")
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("counter", counter)
     }
 }
