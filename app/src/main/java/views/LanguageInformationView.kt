@@ -1,8 +1,6 @@
 package views
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
