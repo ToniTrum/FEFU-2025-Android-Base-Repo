@@ -1,47 +1,33 @@
 package co.feip.fefu2025
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import co.feip.fefu2025.ui.theme.FEFU2025AndroidBaseRepoTheme
+import co.feip.fefu2025.ui.theme.languageMap
+import views.CustomLayout
+import views.LanguageInformationView
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            FEFU2025AndroidBaseRepoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "FEIP",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        val customLayout: CustomLayout = findViewById(R.id.vgCustomLayout)
+        val btnAdd: Button = findViewById(R.id.btnAdd)
+
+        btnAdd.setOnClickListener {
+            val randomLanguage: String = languageMap.keys.random()
+            val randomPercent: Float = ((Random.nextDouble(0.0, 100.0) * 10).toInt() / 10.0).toFloat()
+
+            val newLanguageInformationView = LanguageInformationView(this)
+            newLanguageInformationView.setText(randomLanguage, randomPercent)
+            newLanguageInformationView.setDotColor(languageMap[randomLanguage] ?: 0xFF000000.toInt())
+
+            customLayout.addView(newLanguageInformationView)
+            customLayout.requestLayout()
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FEFU2025AndroidBaseRepoTheme {
-        Greeting("Android")
     }
 }
