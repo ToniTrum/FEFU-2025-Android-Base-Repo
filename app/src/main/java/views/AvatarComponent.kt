@@ -26,23 +26,29 @@ fun AvatarComponent(word: String, imageUrl: String? = null) {
             .background(Color.Gray),
         contentAlignment = Alignment.Center
     ) {
-        if (imageUrl != null) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Repository Avatar",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        } else {
-            Text(
-                text = word.firstOrNull()?.uppercase() ?: "?",
-                fontSize = 30.sp,
-                fontWeight = FontWeight(350),
-                color = Color.White
-            )
-        }
+//        if (imageUrl != null) {
+//            AsyncImage(
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(imageUrl)
+//                    .crossfade(true)
+//                    .build(),
+//                contentDescription = "Repository Avatar",
+//                modifier = Modifier.fillMaxSize(),
+//                contentScale = ContentScale.Crop
+//            )
+//        } else {
+//            Text(
+//                text = word.firstOrNull()?.uppercase() ?: "?",
+//                fontSize = 30.sp,
+//                fontWeight = FontWeight(350),
+//                color = Color.White
+//            )
+//        }
+        Text(
+            text = word.firstOrNull()?.uppercase() ?: "?",
+            fontSize = 30.sp,
+            fontWeight = FontWeight(350),
+            color = Color.White
+        )
     }
 }

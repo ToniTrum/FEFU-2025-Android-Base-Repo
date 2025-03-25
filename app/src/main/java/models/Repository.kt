@@ -1,13 +1,16 @@
 package models
 
 import android.util.Log
+import java.util.Date
 
 class Repository(
     private var _name: String,
     var description: String? = null,
     private var _starCount: Int = 0,
     private var _forkCount: Int = 0,
-    private var _avatar: String? = null
+    private var _avatar: String? = null,
+    private var _languages: List<Pair<String, Float>>? = null,
+    private var _createdAt: Date = Date()
 ) {
     var name: String
         get() = _name
@@ -34,6 +37,18 @@ class Repository(
         get() = _avatar
         private set(value) {
             _avatar = value
+        }
+
+    var languages: List<Pair<String, Float>>?
+        get() = _languages
+        private set(value) {
+            _languages = value
+        }
+
+    var createdAt: Date
+        get() = _createdAt
+        private set(value) {
+            _createdAt = value
         }
 
     fun increaseStarCount() {
