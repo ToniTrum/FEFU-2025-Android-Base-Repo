@@ -1,4 +1,4 @@
-package views
+package views.repositoryScreenComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.feip.fefu2025.ui.theme.languageMap
 
@@ -34,15 +33,4 @@ fun LanguageBarComponent(languages: List<Pair<String, Float>>) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewLanguageBar() {
-    LanguageBarComponent(listOf(
-        Pair("Kotlin", 84.3f),
-        Pair("Java", 5.7f),
-        Pair("XML", 7f),
-        Pair("C#", 3f)
-    ))
 }

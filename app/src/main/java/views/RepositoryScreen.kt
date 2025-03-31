@@ -15,6 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.feip.fefu2025.R
 import models.Repository
+import views.commonComponents.AvatarComponent
+import views.commonComponents.CounterWithIcon
+import views.repositoryScreenComponents.LanguageBarComponent
+import views.repositoryScreenComponents.UsedLanguagesComponent
 import java.util.Date
 import kotlin.math.round
 

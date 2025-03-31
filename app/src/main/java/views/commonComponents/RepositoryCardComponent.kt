@@ -1,4 +1,4 @@
-package views
+package views.commonComponents
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -17,7 +17,7 @@ import co.feip.fefu2025.R
 import models.Repository
 
 @Composable
-fun RepositoryCard(repository: Repository) {
+fun RepositoryCardComponent(repository: Repository) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -72,8 +72,8 @@ fun RepositoryCard(repository: Repository) {
 
 @Preview
 @Composable
-fun PreviewRepositoryCard() {
-    RepositoryCard(
+fun PreviewRepositoryCardComponent() {
+    RepositoryCardComponent(
         repository = Repository(
             "Name",
             "Description",

@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import co.feip.fefu2025.ui.theme.FEFU2025AndroidBaseRepoTheme
-import models.Repository
-import views.PreviewLanguageBar
-import views.PreviewRepositoryScreen
-import views.RepositoryCard
-import java.util.Date
+import views.PreviewMyStarsSection
+import views.commonComponents.PreviewSearchLineComponent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +20,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FEFU2025AndroidBaseRepoTheme {
-                PreviewLanguageBar()
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    PreviewSearchLineComponent()
+                    PreviewMyStarsSection()
+                }
             }
         }
     }
