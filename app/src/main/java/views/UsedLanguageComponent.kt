@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import co.feip.fefu2025.ui.theme.languageMap
-import viewModels.CustomLayout
+import viewModels.FlexBoxLayout
 import viewModels.LanguageInformationViewModel
 
 @Composable
@@ -15,11 +15,11 @@ fun UsedLanguagesComponent(
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            CustomLayout(context).apply {
-                languages.forEach { (language, percent) ->
+            FlexBoxLayout(context).apply {
+                languages.forEach { language ->
                     val languageView = LanguageInformationViewModel(context).apply {
-                        setText(language, percent)
-                        setDotColor(languageMap[language] ?: 0xFF000000.toInt())
+                        setText(language)
+                        setDotColor(languageMap[language.first] ?: 0xFF000000.toInt())
                     }
                     addView(languageView)
                 }
@@ -27,10 +27,10 @@ fun UsedLanguagesComponent(
         },
         update = { customLayout ->
             customLayout.removeAllViews()
-            languages.forEach { (language, percent) ->
+            languages.forEach { language ->
                 val languageView = LanguageInformationViewModel(customLayout.context).apply {
-                    setText(language, percent)
-                    setDotColor(languageMap[language] ?: 0xFF000000.toInt())
+                    setText(language)
+                    setDotColor(languageMap[language.first] ?: 0xFF000000.toInt())
                 }
                 customLayout.addView(languageView)
             }
