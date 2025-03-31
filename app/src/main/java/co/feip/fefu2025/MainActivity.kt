@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import co.feip.fefu2025.ui.theme.FEFU2025AndroidBaseRepoTheme
 import models.Repository
+import views.PreviewLanguageBar
 import views.PreviewRepositoryScreen
 import views.RepositoryCard
 import java.util.Date
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FEFU2025AndroidBaseRepoTheme {
-                PreviewRepositoryScreen()
+                PreviewLanguageBar()
             }
         }
     }

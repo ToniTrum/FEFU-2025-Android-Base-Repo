@@ -62,21 +62,25 @@ fun RepositoryScreen(repository: Repository) {
             )
         }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            var languages = (repository.languages as List<Pair<String, Float>>)
-                .map{ (language, percent) -> language to round(percent * 10) / 10 }
+        if (!repository.languages.isNullOrEmpty())
+        {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                val languages = (repository.languages as List<Pair<String, Float>>)
+                    .map{ (language, percent) -> language to round(percent * 10) / 10 }
 
-            Text(
-                text = "Language used",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            UsedLanguagesComponent(
-                languages = languages,
-                modifier = Modifier.fillMaxWidth()
-            )
+                Text(
+                    text = "Language used",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                LanguageBarComponent(repository.languages!!)
+                UsedLanguagesComponent(
+                    languages = languages,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
 
         Column {
