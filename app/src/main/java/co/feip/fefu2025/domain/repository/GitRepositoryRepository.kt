@@ -1,0 +1,9 @@
+package co.feip.fefu2025.domain.repository
+
+import co.feip.fefu2025.data.remote.dto.GitRepositoryDetailDto
+import co.feip.fefu2025.data.remote.dto.GitRepositoryDto
+
+interface GitRepositoryRepository {
+    suspend fun getGitRepositoryList(): List<GitRepositoryDto>
+    suspend fun getGitRepositoryById(gitRepositoryId: Int): GitRepositoryDetailDto
+}
