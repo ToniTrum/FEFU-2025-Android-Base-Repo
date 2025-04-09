@@ -18,27 +18,29 @@ class LanguageInformationViewModel @JvmOverloads constructor(
     private var viewDot: View
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_language_information, this, true)
+        LayoutInflater.from(context).inflate(R.layout.layout_language_information, this, true)
         tvLanguage = findViewById(R.id.tvLanguage)
         tvPercent = findViewById(R.id.tvPercent)
         viewDot = findViewById(R.id.viewDot)
 
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.LanguageInformationView)
-            val language = typedArray.getString(R.styleable.LanguageInformationView_language) ?: "Language"
-            val percent = typedArray.getFloat(R.styleable.LanguageInformationView_percent, 0f)
+            val language = Pair(
+                typedArray.getString(R.styleable.LanguageInformationView_language) ?: "Language",
+                typedArray.getFloat(R.styleable.LanguageInformationView_percent, 0f)
+            )
             val dotColor = typedArray.getColor(R.styleable.LanguageInformationView_dotColor, 0xFF000000.toInt())
 
-            setText(language, percent)
+            setText(language)
             setDotColor(dotColor)
 
             typedArray.recycle()
         }
     }
 
-    fun setText(language: String, percent: Float) {
-        tvLanguage.text = language
-        tvPercent.text = "$percent %"
+    fun setText(language: Pair<String, Float>) {
+        tvLanguage.text = language.first
+        tvPercent.text = "${language.second} %"
     }
 
     fun setDotColor(color: Int) {

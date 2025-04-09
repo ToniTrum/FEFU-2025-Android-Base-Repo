@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 
-class CustomLayout @JvmOverloads constructor(
+class FlexBoxLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ): ViewGroup(context, attrs, defStyleAttr) {
 
@@ -18,12 +18,13 @@ class CustomLayout @JvmOverloads constructor(
         var maxWidth = 0
         var totalHeight = 0
 
-        val childWidthSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST)
-        val childHeightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            measureChild(child, childWidthSpec, childHeightSpec)
+
+            val childWidthSpec = getChildMeasureSpec(widthMeasureSpec, 0, child.layoutParams.width)
+            val childHeightSpec = getChildMeasureSpec(heightMeasureSpec, 0, child.layoutParams.height)
+
+            child.measure(childWidthSpec, childHeightSpec)
 
             if (currentWidth + child.measuredWidth > widthSize) {
                 totalHeight += currentHeight
@@ -38,8 +39,8 @@ class CustomLayout @JvmOverloads constructor(
 
         totalHeight += currentHeight
 
-        val finalWidth = if (widthMode == MeasureSpec.EXACTLY) widthSize else maxWidth
-        val finalHeight = if (heightMode == MeasureSpec.EXACTLY) MeasureSpec.getSize(heightMeasureSpec) else totalHeight
+        val finalWidth = resolveSize(maxWidth, widthMeasureSpec)
+        val finalHeight = resolveSize(totalHeight, heightMeasureSpec)
 
         setMeasuredDimension(finalWidth, finalHeight)
     }

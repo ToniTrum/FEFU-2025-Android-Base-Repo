@@ -15,6 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.feip.fefu2025.R
 import models.Repository
+import views.commonComponents.AvatarComponent
+import views.commonComponents.CounterWithIcon
+import views.repositoryScreenComponents.LanguageBarComponent
+import views.repositoryScreenComponents.UsedLanguagesComponent
 import java.util.Date
 import kotlin.math.round
 
@@ -62,21 +66,25 @@ fun RepositoryScreen(repository: Repository) {
             )
         }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            var languages = (repository.languages as List<Pair<String, Float>>)
-                .map{ (language, percent) -> language to round(percent * 10) / 10 }
+        if (!repository.languages.isNullOrEmpty())
+        {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                val languages = (repository.languages as List<Pair<String, Float>>)
+                    .map{ (language, percent) -> language to round(percent * 10) / 10 }
 
-            Text(
-                text = "Language used",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            UsedLanguagesComponent(
-                languages = languages,
-                modifier = Modifier.fillMaxWidth()
-            )
+                Text(
+                    text = "Language used",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                LanguageBarComponent(repository.languages!!)
+                UsedLanguagesComponent(
+                    languages = languages,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
 
         Column {

@@ -1,4 +1,4 @@
-package views
+package views.commonComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
