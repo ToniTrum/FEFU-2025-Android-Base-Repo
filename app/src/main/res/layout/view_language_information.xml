@@ -10,7 +10,7 @@
         android:id="@+id/viewDot"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        android:background="@drawable/dot"
+        android:background="@drawable/bg_circle"
         android:layout_marginRight="10dp" />
 
     <TextView
