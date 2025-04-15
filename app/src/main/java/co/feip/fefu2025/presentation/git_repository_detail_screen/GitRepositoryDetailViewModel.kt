@@ -1,8 +1,5 @@
 package co.feip.fefu2025.presentation.git_repository_detail_screen
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.feip.fefu2025.common.Resource
@@ -17,18 +14,19 @@ import javax.inject.Inject
 @HiltViewModel
 class GitRepositoryDetailViewModel @Inject constructor(
     private val getGitRepositoryDetailUseCase: GetGitRepositoryDetailUseCase,
-    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state = MutableStateFlow(GitRepositoryDetailState())
     val state: StateFlow<GitRepositoryDetailState> = _state
 
+    private val _gitRepositoryId = MutableStateFlow<Int?>(null)
+
     init {
-        savedStateHandle.get<Int>("gitRepositoryId")?.let { gitRepositoryId ->
-            getGitRepository(gitRepositoryId)
+        _gitRepositoryId.value?.let {
+            getGitRepositoryDetail(it)
         }
     }
 
-    private fun getGitRepository(gitRepositoryId: Int) {
+    private fun getGitRepositoryDetail(gitRepositoryId: Int) {
         getGitRepositoryDetailUseCase(gitRepositoryId).onEach { result ->
             when(result) {
                 is Resource.Success -> {
@@ -42,5 +40,12 @@ class GitRepositoryDetailViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun setGitRepositoryId(gitRepositoryId: Int) {
+        if (_gitRepositoryId.value != gitRepositoryId) {
+            _gitRepositoryId.value = gitRepositoryId
+            getGitRepositoryDetail(gitRepositoryId)
+        }
     }
 }

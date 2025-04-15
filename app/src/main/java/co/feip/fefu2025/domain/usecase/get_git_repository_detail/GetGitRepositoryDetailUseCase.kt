@@ -16,7 +16,7 @@ class GetGitRepositoryDetailUseCase @Inject constructor(
     operator fun invoke(gitRepositoryId: Int): Flow<Resource<GitRepositoryDetail>> = flow {
         try {
             emit(Resource.Loading())
-            val gitRepository = repository.getGitRepositoryById(gitRepositoryId).toGitRepositoryDetail()
+            val gitRepository = repository.getGitRepositoryDetail(gitRepositoryId).toGitRepositoryDetail()
             emit(Resource.Success(gitRepository))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error in GetGitRepositoryDetailUseCase"))
