@@ -1,5 +1,6 @@
 package co.feip.fefu2025.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import co.feip.fefu2025.presentation.git_repository_detail_screen.GitRepositoryDetailScreen
 import co.feip.fefu2025.presentation.git_repository_list_screen.GitRepositoryListScreen
@@ -60,7 +62,14 @@ class MainActivity : ComponentActivity() {
                             composable<Destination.GitRepositoryListScreen> {
                                 GitRepositoryListScreen(navigator = navigator)
                             }
-                            composable<Destination.GitRepositoryDetailScreen> {
+                            composable<Destination.GitRepositoryDetailScreen>(
+                                deepLinks = listOf(
+                                    navDeepLink {
+                                        uriPattern = "mysuperapp://repo/{id}"
+                                        action = Intent.ACTION_VIEW
+                                    }
+                                )
+                            ) {
                                 val args = it.toRoute<Destination.GitRepositoryDetailScreen>()
                                 GitRepositoryDetailScreen(
                                     navigator = navigator,
