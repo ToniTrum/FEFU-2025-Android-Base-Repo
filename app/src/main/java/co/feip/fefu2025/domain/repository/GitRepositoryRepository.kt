@@ -5,5 +5,5 @@ import co.feip.fefu2025.data.remote.dto.GitRepositoryDto
 
 interface GitRepositoryRepository {
     suspend fun getGitRepositoryList(): List<GitRepositoryDto>
-    suspend fun getGitRepositoryById(gitRepositoryId: Int): GitRepositoryDetailDto
+    suspend fun getGitRepositoryDetail(gitRepositoryId: Int): GitRepositoryDetailDto
 }

@@ -5,6 +5,8 @@ plugins {
 
     alias(libs.plugins.dagger.hilt.android)
     id("kotlin-kapt")
+
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -50,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.protolite.well.known.types)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,11 +67,18 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
 
     implementation("javax.inject:javax.inject:1")
-
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-compiler:2.51.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("com.squareup:javapoet:1.13.0")
 
     implementation("androidx.compose.ui:ui:1.4.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.4.0")
+
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.serialization.json)
+}
+
+hilt {
+    enableAggregatingTask = false
 }

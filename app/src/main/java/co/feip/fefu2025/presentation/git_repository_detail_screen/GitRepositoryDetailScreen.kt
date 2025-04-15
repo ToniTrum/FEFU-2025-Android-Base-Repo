@@ -1,5 +1,6 @@
 package co.feip.fefu2025.presentation.git_repository_detail_screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,16 +15,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
+import co.feip.fefu2025.domain.model.GitRepository
 import co.feip.fefu2025.presentation.components.AvatarComponent
 import co.feip.fefu2025.presentation.components.CounterWithIcon
 import co.feip.fefu2025.presentation.git_repository_detail_screen.components.LanguageBarComponent
 import co.feip.fefu2025.presentation.git_repository_detail_screen.components.UsedLanguagesComponent
+import co.feip.fefu2025.presentation.navigation.Navigator
 import kotlin.math.round
 
 @Composable
 fun GitRepositoryDetailScreen(
-    viewModel: GitRepositoryDetailViewModel = hiltViewModel()
+    viewModel: GitRepositoryDetailViewModel = hiltViewModel(),
+    navigator: Navigator,
+    gitRepositoryId: Int
 ) {
+    LaunchedEffect(gitRepositoryId) {
+        viewModel.setGitRepositoryId(gitRepositoryId)
+    }
+
     val state by viewModel.state.collectAsState()
 
     if (state.isLoading) {
@@ -40,6 +49,17 @@ fun GitRepositoryDetailScreen(
     if (gitRepository == null) {
         Text(text = "Repository not found")
         return
+    }
+
+    var shouldNavigateBack by remember { mutableStateOf(false) }
+    BackHandler {
+        shouldNavigateBack = true
+    }
+
+    if (shouldNavigateBack) {
+        LaunchedEffect(Unit) {
+            navigator.navigateUp()
+        }
     }
 
     Column(

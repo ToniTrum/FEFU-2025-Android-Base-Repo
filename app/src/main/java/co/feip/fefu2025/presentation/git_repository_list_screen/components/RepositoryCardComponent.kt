@@ -19,7 +19,8 @@ import co.feip.fefu2025.presentation.components.CounterWithIcon
 
 @Composable
 fun RepositoryCardComponent(
-    gitRepository: GitRepository
+    gitRepository: GitRepository,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -27,7 +28,8 @@ fun RepositoryCardComponent(
             .padding(8.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFEEEEEE)),
-        border = BorderStroke(3.dp, Color.Black)
+        border = BorderStroke(3.dp, Color.Black),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
