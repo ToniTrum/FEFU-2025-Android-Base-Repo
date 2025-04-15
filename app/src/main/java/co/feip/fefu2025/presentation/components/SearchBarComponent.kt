@@ -12,12 +12,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -44,11 +41,4 @@ fun SearchBarComponent(
             textStyle = TextStyle(fontSize = 20.sp)
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewSearchLineComponent() {
-    val query = remember { mutableStateOf("") }
-    SearchBarComponent(query.value, onQueryChange = { query.value = it })
 }

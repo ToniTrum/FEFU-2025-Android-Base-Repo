@@ -1,4 +1,4 @@
-package co.feip.fefu2025.domain.usecase.get_git_repositories
+package co.feip.fefu2025.domain.usecase.get_git_repository_list
 
 import co.feip.fefu2025.common.Resource
 import co.feip.fefu2025.data.remote.dto.toGitRepository
@@ -16,8 +16,8 @@ class GetGitRepositoryListUseCase @Inject constructor(
     operator fun invoke(): Flow<Resource<List<GitRepository>>> = flow {
         try {
             emit(Resource.Loading())
-            val gitRepositories = repository.getGitRepositoryList().map { it.toGitRepository() }
-            emit(Resource.Success(gitRepositories))
+            val gitRepositoryList = repository.getGitRepositoryList().map { it.toGitRepository() }
+            emit(Resource.Success(gitRepositoryList))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error in GetGitRepositoryListUseCase"))
         } catch (e: IOException) {

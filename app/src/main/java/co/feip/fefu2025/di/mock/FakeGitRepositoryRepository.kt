@@ -39,4 +39,25 @@ class FakeGitRepositoryRepository: GitRepositoryRepository {
             createdAt = Date()
         )
     }
+
+    override suspend fun getMyStars(): List<GitRepositoryDto> {
+        return listOf(
+            GitRepositoryDto(
+                id = 1,
+                name = "Cool Repo 1",
+                description = "My fake repo",
+                starCount = 1,
+                forkCount = 1,
+                avatar = null
+            ),
+            GitRepositoryDto(
+                id = 2,
+                name = "Cool Repo 2",
+                description = "My fake repo",
+                starCount = 2,
+                forkCount = 2,
+                avatar = null
+            )
+        )
+    }
 }

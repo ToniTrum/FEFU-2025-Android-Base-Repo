@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.git_repository_list_screen.components
+package co.feip.fefu2025.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -14,8 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.feip.fefu2025.R
 import co.feip.fefu2025.domain.model.GitRepository
-import co.feip.fefu2025.presentation.components.AvatarComponent
-import co.feip.fefu2025.presentation.components.CounterWithIcon
 
 @Composable
 fun RepositoryCardComponent(

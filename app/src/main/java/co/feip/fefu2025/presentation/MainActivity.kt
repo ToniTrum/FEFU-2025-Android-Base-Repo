@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import co.feip.fefu2025.presentation.git_repository_detail_screen.GitRepositoryDetailScreen
 import co.feip.fefu2025.presentation.git_repository_list_screen.GitRepositoryListScreen
+import co.feip.fefu2025.presentation.my_stars_screen.MyStarsScreen
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.EventObserver
 import co.feip.fefu2025.presentation.navigation.NavigationAction
@@ -59,12 +60,16 @@ class MainActivity : ComponentActivity() {
                             composable<Destination.GitRepositoryListScreen> {
                                 GitRepositoryListScreen(navigator = navigator)
                             }
-
                             composable<Destination.GitRepositoryDetailScreen> {
                                 val args = it.toRoute<Destination.GitRepositoryDetailScreen>()
                                 GitRepositoryDetailScreen(
                                     navigator = navigator,
                                     gitRepositoryId = args.id
+                                )
+                            }
+                            composable<Destination.MyStarsScreen> {
+                                MyStarsScreen(
+                                    navigator = navigator
                                 )
                             }
                         }
