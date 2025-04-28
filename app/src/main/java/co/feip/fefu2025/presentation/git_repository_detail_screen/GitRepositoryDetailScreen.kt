@@ -10,14 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
-import co.feip.fefu2025.domain.model.GitRepository
 import co.feip.fefu2025.presentation.components.AvatarComponent
 import co.feip.fefu2025.presentation.components.CounterWithIcon
+import co.feip.fefu2025.presentation.components.StateManager
 import co.feip.fefu2025.presentation.git_repository_detail_screen.components.LanguageBarComponent
 import co.feip.fefu2025.presentation.git_repository_detail_screen.components.UsedLanguagesComponent
 import co.feip.fefu2025.presentation.navigation.Navigator
@@ -25,116 +26,121 @@ import kotlin.math.round
 
 @Composable
 fun GitRepositoryDetailScreen(
+    modifier: Modifier = Modifier,
     viewModel: GitRepositoryDetailViewModel = hiltViewModel(),
     navigator: Navigator,
     gitRepositoryId: Int
 ) {
-    LaunchedEffect(gitRepositoryId) {
-        viewModel.setGitRepositoryId(gitRepositoryId)
-    }
-
-    val state by viewModel.state.collectAsState()
-
-    if (state.isLoading) {
-        CircularProgressIndicator()
-        return
-    }
-
-    if (state.error.isNotEmpty()) {
-        Text(text = "Error: ${state.error}")
-        return
-    }
-
-    val gitRepository = state.gitRepository
-    if (gitRepository == null) {
-        Text(text = "Repository not found")
-        return
-    }
-
     var shouldNavigateBack by remember { mutableStateOf(false) }
     BackHandler {
         shouldNavigateBack = true
     }
-
     if (shouldNavigateBack) {
         LaunchedEffect(Unit) {
             navigator.navigateUp()
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(15.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+    LaunchedEffect(gitRepositoryId) {
+        viewModel.setGitRepositoryId(gitRepositoryId)
+    }
+
+    val state by viewModel.state.collectAsState()
+
+    StateManager(
+        state = state
     ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AvatarComponent(gitRepository.name, gitRepository.avatar)
+        val gitRepository = state.gitRepository
+        if (gitRepository == null) {
             Text(
-                text = gitRepository.name,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold
+                text = stringResource(R.string.repository_not_found)
             )
+            return@StateManager
         }
 
-        gitRepository.description?.let {
-            Text(
-                text = it,
-                fontSize = 20.sp,
-                color = Color.Gray
-            )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            CounterWithIcon(
-                icon = painterResource(id = R.drawable.ic_star),
-                count = gitRepository.starCount,
-                text = "Stars"
-            )
-            CounterWithIcon(
-                icon = painterResource(id = R.drawable.ic_fork),
-                count = gitRepository.forkCount,
-                text = "Forks"
-            )
-        }
-
-        if (gitRepository.languages.isNotEmpty())
-        {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                val languages = (gitRepository.languages)
-                    .map{ (language, percent) -> language to round(percent * 10) / 10 }
-
+                val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
+                AvatarComponent(
+                    modifier = Modifier.size(60.dp),
+                    symbol = symbol,
+                    imageUrl = gitRepository.avatar
+                )
                 Text(
-                    text = "Language used",
+                    text = gitRepository.name,
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            gitRepository.description?.let {
+                Text(
+                    text = it,
+                    fontSize = 20.sp,
+                    color = Color.Gray
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                CounterWithIcon(
+                    modifier = Modifier.padding(2.dp),
+                    icon = painterResource(id = R.drawable.ic_star),
+                    text = stringResource(R.string.star_count, gitRepository.starCount)
+                )
+                CounterWithIcon(
+                    modifier = Modifier.padding(2.dp),
+                    icon = painterResource(id = R.drawable.ic_fork),
+                    text = stringResource(R.string.fork_count, gitRepository.forkCount)
+                )
+            }
+
+            if (gitRepository.languages.isNotEmpty())
+            {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    val languages = (gitRepository.languages)
+                        .map{ (language, percent) -> language to round(percent * 10) / 10 }
+
+                    Text(
+                        text = stringResource(R.string.language_used),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    LanguageBarComponent(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .height(10.dp),
+                        languages = gitRepository.languages
+                    )
+                    UsedLanguagesComponent(
+                        languages = languages,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
+            Column {
+                Text(
+                    text = stringResource(R.string.created_at),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
-                LanguageBarComponent(gitRepository.languages)
-                UsedLanguagesComponent(
-                    languages = languages,
-                    modifier = Modifier.fillMaxWidth()
+                Text(
+                    text = gitRepository.createdAt.toString(),
+                    fontSize = 20.sp
                 )
             }
-        }
-
-        Column {
-            Text(
-                text = "Created at",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = gitRepository.createdAt.toString(),
-                fontSize = 20.sp
-            )
         }
     }
 }

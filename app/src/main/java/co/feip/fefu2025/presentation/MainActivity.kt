@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -60,7 +61,10 @@ class MainActivity : ComponentActivity() {
                             startDestination = Destination.GitRepositoryListScreen
                         ) {
                             composable<Destination.GitRepositoryListScreen> {
-                                GitRepositoryListScreen(navigator = navigator)
+                                GitRepositoryListScreen(
+                                    modifier = Modifier.fillMaxSize(),
+                                    navigator = navigator
+                                )
                             }
                             composable<Destination.GitRepositoryDetailScreen>(
                                 deepLinks = listOf(
@@ -72,12 +76,16 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 val args = it.toRoute<Destination.GitRepositoryDetailScreen>()
                                 GitRepositoryDetailScreen(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(15.dp),
                                     navigator = navigator,
                                     gitRepositoryId = args.id
                                 )
                             }
                             composable<Destination.MyStarsScreen> {
                                 MyStarsScreen(
+                                    modifier = Modifier.fillMaxSize(),
                                     navigator = navigator
                                 )
                             }

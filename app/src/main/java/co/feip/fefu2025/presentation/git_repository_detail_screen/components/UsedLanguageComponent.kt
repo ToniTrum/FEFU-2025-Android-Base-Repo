@@ -7,8 +7,8 @@ import co.feip.fefu2025.common.languageMap
 
 @Composable
 fun UsedLanguagesComponent(
-    languages: List<Pair<String, Float>>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    languages: List<Pair<String, Float>>
 ) {
     AndroidView(
         modifier = modifier,

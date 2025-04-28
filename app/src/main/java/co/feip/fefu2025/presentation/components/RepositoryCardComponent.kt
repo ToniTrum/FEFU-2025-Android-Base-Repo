@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,13 +18,12 @@ import co.feip.fefu2025.domain.model.GitRepository
 
 @Composable
 fun RepositoryCardComponent(
+    modifier: Modifier = Modifier,
     gitRepository: GitRepository,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFEEEEEE)),
         border = BorderStroke(3.dp, Color.Black),
@@ -33,7 +33,12 @@ fun RepositoryCardComponent(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            AvatarComponent(gitRepository.name, gitRepository.avatar)
+            val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
+            AvatarComponent(
+                modifier = Modifier.size(60.dp),
+                symbol = symbol,
+                imageUrl = gitRepository.avatar
+            )
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -58,14 +63,14 @@ fun RepositoryCardComponent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     CounterWithIcon(
+                        modifier = Modifier.padding(2.dp),
                         icon = painterResource(id = R.drawable.ic_star),
-                        count = gitRepository.starCount,
-                        text = "Stars"
+                        text = stringResource(R.string.star_count, gitRepository.starCount)
                     )
                     CounterWithIcon(
+                        modifier = Modifier.padding(2.dp),
                         icon = painterResource(id = R.drawable.ic_fork),
-                        count = gitRepository.forkCount,
-                        text = "Forks"
+                        text = stringResource(R.string.fork_count, gitRepository.forkCount)
                     )
                 }
             }

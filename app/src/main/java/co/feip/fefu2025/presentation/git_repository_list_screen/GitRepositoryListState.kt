@@ -1,9 +1,10 @@
 package co.feip.fefu2025.presentation.git_repository_list_screen
 
+import co.feip.fefu2025.common.BaseState
 import co.feip.fefu2025.domain.model.GitRepository
 
 data class GitRepositoryListState(
-    val isLoading: Boolean = false,
+    override val isLoading: Boolean = false,
     val gitRepositoryList: List<GitRepository> = emptyList(),
-    val error: String = ""
-)
+    override val error: String = ""
+) : BaseState
