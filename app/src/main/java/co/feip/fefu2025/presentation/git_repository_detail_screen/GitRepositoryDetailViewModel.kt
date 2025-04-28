@@ -42,6 +42,12 @@ class GitRepositoryDetailViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun reloadData() {
+        _gitRepositoryId.value?.let {
+            getGitRepositoryDetail(it)
+        }
+    }
+
     fun setGitRepositoryId(gitRepositoryId: Int) {
         if (_gitRepositoryId.value != gitRepositoryId) {
             _gitRepositoryId.value = gitRepositoryId

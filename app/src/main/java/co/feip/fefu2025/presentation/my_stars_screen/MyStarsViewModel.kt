@@ -45,6 +45,10 @@ class MyStarsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun reloadData() {
+        getMyStars()
+    }
+
     fun navigateToGitRepositoryDetailScreen(id: Int) {
         viewModelScope.launch {
             _navigationEvent.emit(Destination.GitRepositoryDetailScreen(id))

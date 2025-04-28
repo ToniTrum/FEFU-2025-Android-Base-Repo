@@ -42,7 +42,10 @@ fun GitRepositoryListScreen(
     }
 
     StateManager(
-        state = state
+        state = state,
+        onClick = {
+            viewModel.reloadData()
+        }
     ) {
         val gitRepositoryList = state.gitRepositoryList
         if (gitRepositoryList.isEmpty()) {

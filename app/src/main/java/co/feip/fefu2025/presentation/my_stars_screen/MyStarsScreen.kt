@@ -46,7 +46,10 @@ fun MyStarsScreen(
     val state by viewModel.state.collectAsState()
 
     StateManager(
-        state = state
+        state = state,
+        onClick = {
+            viewModel.reloadData()
+        }
     ) {
         val gitRepositoryList = state.gitRepositoryList
         if (gitRepositoryList.isEmpty()) {

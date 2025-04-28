@@ -48,7 +48,10 @@ fun GitRepositoryDetailScreen(
     val state by viewModel.state.collectAsState()
 
     StateManager(
-        state = state
+        state = state,
+        onClick = {
+            viewModel.reloadData()
+        }
     ) {
         val gitRepository = state.gitRepository
         if (gitRepository == null) {

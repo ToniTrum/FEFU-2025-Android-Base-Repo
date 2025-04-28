@@ -15,4 +15,5 @@
     <string name="error_message">Error: %1$s</string>
     <string name="screen_not_found">Screen not found</string>
     <string name="repository_not_found">Repository not found</string>
+    <string name="try_again">Try Again</string>
 </resources>

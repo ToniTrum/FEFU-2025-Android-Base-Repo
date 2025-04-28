@@ -45,6 +45,10 @@ class GitRepositoryListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun reloadData() {
+        getGitRepositoryList()
+    }
+
     fun navigateToGitRepositoryDetailScreen(id: Int) {
         viewModelScope.launch {
             _navigationEvent.emit(Destination.GitRepositoryDetailScreen(id))
