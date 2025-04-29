@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.git_repository_detail_screen
+package co.feip.fefu2025.presentation.screens.git_repository_detail_screen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -16,11 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
-import co.feip.fefu2025.presentation.components.AvatarComponent
-import co.feip.fefu2025.presentation.components.CounterWithIcon
-import co.feip.fefu2025.presentation.components.StateManager
-import co.feip.fefu2025.presentation.git_repository_detail_screen.components.LanguageBarComponent
-import co.feip.fefu2025.presentation.git_repository_detail_screen.components.UsedLanguagesComponent
+import co.feip.fefu2025.presentation.common_components.AvatarComponent
+import co.feip.fefu2025.presentation.common_components.CounterWithIcon
+import co.feip.fefu2025.presentation.common_components.StateManager
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.LanguageBarComponent
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.UsedLanguagesComponent
 import co.feip.fefu2025.presentation.navigation.Navigator
 import kotlin.math.round
 

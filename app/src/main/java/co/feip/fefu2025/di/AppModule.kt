@@ -4,6 +4,7 @@ import co.feip.fefu2025.di.mock.FakeGitRepositoryRepository
 import co.feip.fefu2025.domain.repository.GitRepositoryRepository
 import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetGitRepositoryListUseCase
 import co.feip.fefu2025.domain.usecase.get_git_repository_detail.GetGitRepositoryDetailUseCase
+import co.feip.fefu2025.domain.usecase.search_git_repository.SearchGitRepositoryUseCase
 import co.feip.fefu2025.presentation.navigation.DefaultNavigator
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.Navigator
@@ -40,5 +41,12 @@ object AppModule {
         repository: GitRepositoryRepository
     ): GetGitRepositoryDetailUseCase {
         return GetGitRepositoryDetailUseCase(repository)
+    }
+
+    @Provides
+    fun provideSearchGitRepositoryUseCase(
+        repository: GitRepositoryRepository
+    ): SearchGitRepositoryUseCase {
+        return SearchGitRepositoryUseCase(repository)
     }
 }

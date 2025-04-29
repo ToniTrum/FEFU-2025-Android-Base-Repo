@@ -1,9 +1,9 @@
-package co.feip.fefu2025.presentation.git_repository_list_screen
+package co.feip.fefu2025.presentation.screens.my_stars_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.feip.fefu2025.common.Resource
-import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetGitRepositoryListUseCase
+import co.feip.fefu2025.domain.usecase.get_my_stars.GetMyStarsUseCase
 import co.feip.fefu2025.presentation.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,37 +16,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GitRepositoryListViewModel @Inject constructor(
-    private val getGitRepositoryListUseCase: GetGitRepositoryListUseCase
-) : ViewModel() {
-    private val _state = MutableStateFlow(GitRepositoryListState())
-    val state: StateFlow<GitRepositoryListState> = _state
+class MyStarsViewModel @Inject constructor(
+    private val getMyStarsUseCase: GetMyStarsUseCase
+): ViewModel() {
+    private val _state = MutableStateFlow(MyStarsState())
+    val state: StateFlow<MyStarsState> = _state
 
     private val _navigationEvent = MutableSharedFlow<Destination>()
     val navigationEvent = _navigationEvent.asSharedFlow()
 
     init {
-        getGitRepositoryList()
+        getMyStars()
     }
 
-    private fun getGitRepositoryList() {
-        getGitRepositoryListUseCase().onEach { result ->
+    private fun getMyStars() {
+        getMyStarsUseCase().onEach { result ->
             when(result) {
                 is Resource.Success -> {
-                    _state.value = GitRepositoryListState(gitRepositoryList = result.data ?: emptyList())
+                    _state.value = MyStarsState(gitRepositoryList = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = GitRepositoryListState(error = result.message ?: "Unexpected error in GitRepositoryListViewModel")
+                    _state.value = MyStarsState(error = result.message ?: "Unexpected error in MyStarsViewModel")
                 }
                 is Resource.Loading -> {
-                    _state.value = GitRepositoryListState(isLoading = true)
+                    _state.value = MyStarsState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
     }
 
     fun reloadData() {
-        getGitRepositoryList()
+        getMyStars()
     }
 
     fun navigateToGitRepositoryDetailScreen(id: Int) {
@@ -55,9 +55,9 @@ class GitRepositoryListViewModel @Inject constructor(
         }
     }
 
-    fun navigateToMyStarsScreen() {
+    fun navigateToBack() {
         viewModelScope.launch {
-            _navigationEvent.emit(Destination.MyStarsScreen)
+            _navigationEvent.emit(Destination.NavigateUp)
         }
     }
 }

@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.my_stars_screen
+package co.feip.fefu2025.presentation.screens.my_stars_screen
 
 import co.feip.fefu2025.common.BaseState
 import co.feip.fefu2025.domain.model.GitRepository

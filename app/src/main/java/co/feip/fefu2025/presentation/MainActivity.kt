@@ -16,9 +16,9 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
-import co.feip.fefu2025.presentation.git_repository_detail_screen.GitRepositoryDetailScreen
-import co.feip.fefu2025.presentation.git_repository_list_screen.GitRepositoryListScreen
-import co.feip.fefu2025.presentation.my_stars_screen.MyStarsScreen
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.GitRepositoryDetailScreen
+import co.feip.fefu2025.presentation.screens.git_repository_list_screen.GitRepositoryListScreen
+import co.feip.fefu2025.presentation.screens.my_stars_screen.MyStarsScreen
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.EventObserver
 import co.feip.fefu2025.presentation.navigation.NavigationAction

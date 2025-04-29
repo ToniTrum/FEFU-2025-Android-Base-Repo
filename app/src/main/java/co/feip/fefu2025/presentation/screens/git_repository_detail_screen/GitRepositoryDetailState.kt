@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.git_repository_detail_screen
+package co.feip.fefu2025.presentation.screens.git_repository_detail_screen
 
 import co.feip.fefu2025.common.BaseState
 import co.feip.fefu2025.domain.model.GitRepositoryDetail

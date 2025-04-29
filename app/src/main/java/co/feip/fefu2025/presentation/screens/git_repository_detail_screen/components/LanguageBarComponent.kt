@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.git_repository_detail_screen.components
+package co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

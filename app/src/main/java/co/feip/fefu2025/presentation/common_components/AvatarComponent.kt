@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.components
+package co.feip.fefu2025.presentation.common_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
