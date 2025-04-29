@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.git_repository_detail_screen
+package co.feip.fefu2025.presentation.screens.git_repository_detail_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -40,6 +40,12 @@ class GitRepositoryDetailViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun reloadData() {
+        _gitRepositoryId.value?.let {
+            getGitRepositoryDetail(it)
+        }
     }
 
     fun setGitRepositoryId(gitRepositoryId: Int) {

@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.components
+package co.feip.fefu2025.presentation.common_components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,31 +12,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CounterWithIcon(icon: Painter, count: Int = 0, text: String? = null) {
+fun CounterWithIcon(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    text: String
+) {
     Row(
-        modifier = Modifier
-            .padding(2.dp)
-            .height(IntrinsicSize.Min),
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = icon,
-            contentDescription = text,
-            modifier = Modifier.size(16.sp.value.dp)
+            contentDescription = null,
+            modifier = Modifier.size(16.dp)
         )
 
         Text(
-            text = "$count",
+            text = text,
             fontSize = 16.sp,
             color = Color.Gray
         )
-
-        if (text != null)
-            Text(
-                text = text,
-                fontSize = 16.sp,
-                color = Color.Gray
-            )
     }
 }

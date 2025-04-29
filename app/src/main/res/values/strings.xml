@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">FEFU 2025 Android Base repo</string>
+
+    <string name="star_count">%1$d Stars</string>
+    <string name="fork_count">%1$d Forks</string>
+
+    <string name="search">Search…</string>
+    <string name="language_used">Language used</string>
+    <string name="created_at">Created at</string>
+    <string name="my_stars">My Stars</string>
+    <string name="my_stars_with_arrow">My Stars &gt;</string>
+    <string name="all_projects">All Projects</string>
+    <string name="back">&lt; Back</string>
+
+    <string name="error_message">Error: %1$s</string>
+    <string name="screen_not_found">Screen not found</string>
+    <string name="repository_not_found">Repository not found</string>
+    <string name="try_again">Try Again</string>
 </resources>

@@ -9,15 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
-import co.feip.fefu2025.presentation.git_repository_detail_screen.GitRepositoryDetailScreen
-import co.feip.fefu2025.presentation.git_repository_list_screen.GitRepositoryListScreen
-import co.feip.fefu2025.presentation.my_stars_screen.MyStarsScreen
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.GitRepositoryDetailScreen
+import co.feip.fefu2025.presentation.screens.git_repository_list_screen.GitRepositoryListScreen
+import co.feip.fefu2025.presentation.screens.my_stars_screen.MyStarsScreen
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.EventObserver
 import co.feip.fefu2025.presentation.navigation.NavigationAction
@@ -60,7 +61,10 @@ class MainActivity : ComponentActivity() {
                             startDestination = Destination.GitRepositoryListScreen
                         ) {
                             composable<Destination.GitRepositoryListScreen> {
-                                GitRepositoryListScreen(navigator = navigator)
+                                GitRepositoryListScreen(
+                                    modifier = Modifier.fillMaxSize(),
+                                    navigator = navigator
+                                )
                             }
                             composable<Destination.GitRepositoryDetailScreen>(
                                 deepLinks = listOf(
@@ -72,12 +76,16 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 val args = it.toRoute<Destination.GitRepositoryDetailScreen>()
                                 GitRepositoryDetailScreen(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(15.dp),
                                     navigator = navigator,
                                     gitRepositoryId = args.id
                                 )
                             }
                             composable<Destination.MyStarsScreen> {
                                 MyStarsScreen(
+                                    modifier = Modifier.fillMaxSize(),
                                     navigator = navigator
                                 )
                             }

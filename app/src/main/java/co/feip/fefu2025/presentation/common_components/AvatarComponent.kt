@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.components
+package co.feip.fefu2025.presentation.common_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,14 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AvatarComponent(word: String, imageUrl: String? = null) {
+fun AvatarComponent(
+    modifier: Modifier = Modifier,
+    symbol: String,
+    imageUrl: String? = null
+) {
     Box(
-        modifier = Modifier
-            .size(60.dp)
+        modifier = modifier
             .clip(RoundedCornerShape(percent = 20))
             .background(Color.Gray),
         contentAlignment = Alignment.Center
@@ -41,7 +43,7 @@ fun AvatarComponent(word: String, imageUrl: String? = null) {
 //            )
 //        }
         Text(
-            text = word.firstOrNull()?.uppercase() ?: "?",
+            text = symbol,
             fontSize = 30.sp,
             fontWeight = FontWeight(350),
             color = Color.White

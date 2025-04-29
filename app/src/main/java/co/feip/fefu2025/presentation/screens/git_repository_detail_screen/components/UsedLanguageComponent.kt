@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.git_repository_detail_screen.components
+package co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,8 +7,8 @@ import co.feip.fefu2025.common.languageMap
 
 @Composable
 fun UsedLanguagesComponent(
-    languages: List<Pair<String, Float>>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    languages: List<Pair<String, Float>>
 ) {
     AndroidView(
         modifier = modifier,

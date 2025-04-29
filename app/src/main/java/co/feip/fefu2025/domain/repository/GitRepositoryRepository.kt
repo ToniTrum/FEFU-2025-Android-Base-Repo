@@ -7,4 +7,5 @@ interface GitRepositoryRepository {
     suspend fun getGitRepositoryList(): List<GitRepositoryDto>
     suspend fun getGitRepositoryDetail(gitRepositoryId: Int): GitRepositoryDetailDto
     suspend fun getMyStars(): List<GitRepositoryDto>
+    suspend fun searchGitRepository(query: String): List<GitRepositoryDto>
 }

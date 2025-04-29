@@ -6,25 +6,27 @@ import co.feip.fefu2025.domain.repository.GitRepositoryRepository
 import java.util.Date
 
 class FakeGitRepositoryRepository: GitRepositoryRepository {
-    override suspend fun getGitRepositoryList(): List<GitRepositoryDto> {
-        return listOf(
-            GitRepositoryDto(
-                id = 1,
-                name = "Cool Repo 1",
-                description = "My fake repo",
-                starCount = 1,
-                forkCount = 1,
-                avatar = null
-            ),
-            GitRepositoryDto(
-                id = 2,
-                name = "Cool Repo 2",
-                description = "My fake repo",
-                starCount = 2,
-                forkCount = 2,
-                avatar = null
-            )
+    private val localeData: List<GitRepositoryDto> = listOf(
+        GitRepositoryDto(
+            id = 1,
+            name = "Cool Repo 1",
+            description = "My fake repo",
+            starCount = 1,
+            forkCount = 1,
+            avatar = null
+        ),
+        GitRepositoryDto(
+            id = 2,
+            name = "Cool Repo 2",
+            description = "My fake repo",
+            starCount = 2,
+            forkCount = 2,
+            avatar = null
         )
+    )
+
+    override suspend fun getGitRepositoryList(): List<GitRepositoryDto> {
+        return localeData
     }
 
     override suspend fun getGitRepositoryDetail(gitRepositoryId: Int): GitRepositoryDetailDto {
@@ -41,23 +43,16 @@ class FakeGitRepositoryRepository: GitRepositoryRepository {
     }
 
     override suspend fun getMyStars(): List<GitRepositoryDto> {
-        return listOf(
-            GitRepositoryDto(
-                id = 1,
-                name = "Cool Repo 1",
-                description = "My fake repo",
-                starCount = 1,
-                forkCount = 1,
-                avatar = null
-            ),
-            GitRepositoryDto(
-                id = 2,
-                name = "Cool Repo 2",
-                description = "My fake repo",
-                starCount = 2,
-                forkCount = 2,
-                avatar = null
-            )
-        )
+        return localeData
+    }
+
+    override suspend fun searchGitRepository(query: String): List<GitRepositoryDto> {
+        return if (query.isBlank()) {
+            localeData
+        } else {
+            localeData.filter { repo ->
+                repo.name.contains(query, ignoreCase = true)
+            }
+        }
     }
 }
