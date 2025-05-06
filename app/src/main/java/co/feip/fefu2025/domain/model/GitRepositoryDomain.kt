@@ -1,6 +1,6 @@
 package co.feip.fefu2025.domain.model
 
-data class GitRepository(
+data class GitRepositoryDomain(
     val id: Int,
     val name: String,
     val description: String? = null,

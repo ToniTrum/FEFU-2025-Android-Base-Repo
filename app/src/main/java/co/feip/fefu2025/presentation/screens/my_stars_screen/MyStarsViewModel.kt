@@ -3,7 +3,7 @@ package co.feip.fefu2025.presentation.screens.my_stars_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.feip.fefu2025.common.Resource
-import co.feip.fefu2025.domain.usecase.get_my_stars.GetMyStarsUseCase
+import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetMyStarsUseCase
 import co.feip.fefu2025.presentation.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

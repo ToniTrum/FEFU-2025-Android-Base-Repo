@@ -16,11 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
-import co.feip.fefu2025.presentation.common_components.AvatarComponent
+import co.feip.fefu2025.presentation.common_components.AvatarIcon
 import co.feip.fefu2025.presentation.common_components.CounterWithIcon
 import co.feip.fefu2025.presentation.common_components.StateManager
-import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.LanguageBarComponent
-import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.UsedLanguagesComponent
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.LanguageBar
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.UsedLanguagesList
 import co.feip.fefu2025.presentation.navigation.Navigator
 import kotlin.math.round
 
@@ -71,7 +71,7 @@ fun GitRepositoryDetailScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
-                AvatarComponent(
+                AvatarIcon(
                     modifier = Modifier.size(60.dp),
                     symbol = symbol,
                     imageUrl = gitRepository.avatar
@@ -111,22 +111,26 @@ fun GitRepositoryDetailScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    val languages = (gitRepository.languages)
-                        .map{ (language, percent) -> language to round(percent * 10) / 10 }
+                    val languages = (gitRepository.languages).map{ language ->
+                        Pair(
+                            language.name,
+                            round(language.percent * 10) / 10
+                        )
+                    }
 
                     Text(
                         text = stringResource(R.string.language_used),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    LanguageBarComponent(
+                    LanguageBar(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(5.dp)
                             .height(10.dp),
                         languages = gitRepository.languages
                     )
-                    UsedLanguagesComponent(
+                    UsedLanguagesList(
                         languages = languages,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -140,7 +144,7 @@ fun GitRepositoryDetailScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = gitRepository.createdAt.toString(),
+                    text = gitRepository.createdAt,
                     fontSize = 20.sp
                 )
             }

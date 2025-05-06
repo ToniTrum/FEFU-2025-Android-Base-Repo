@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
-import co.feip.fefu2025.presentation.common_components.RepositoryCardComponent
+import co.feip.fefu2025.presentation.common_components.RepositoryCard
 import co.feip.fefu2025.presentation.components.search_bar_component.SearchBarComponent
 import co.feip.fefu2025.presentation.common_components.StateManager
 import co.feip.fefu2025.presentation.components.search_bar_component.SearchBarViewModel
@@ -86,7 +86,7 @@ fun GitRepositoryListScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         items(displayedRepositories.take(10)) { gitRepository ->
-                            RepositoryCardComponent(
+                            RepositoryCard(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(8.dp),
@@ -109,7 +109,7 @@ fun GitRepositoryListScreen(
             }
 
             items(displayedRepositories) { gitRepository ->
-                RepositoryCardComponent(
+                RepositoryCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),

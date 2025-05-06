@@ -10,7 +10,7 @@ import android.view.View
 import co.feip.fefu2025.R
 import androidx.core.content.withStyledAttributes
 
-class LanguageListComponent @JvmOverloads constructor(
+class LanguageList @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -37,7 +37,6 @@ class LanguageListComponent @JvmOverloads constructor(
 
                 setText(language)
                 setDotColor(dotColor)
-
             }
         }
     }

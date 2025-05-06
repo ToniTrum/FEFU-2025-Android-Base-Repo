@@ -14,12 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.feip.fefu2025.R
-import co.feip.fefu2025.domain.model.GitRepository
+import co.feip.fefu2025.domain.model.GitRepositoryDomain
 
 @Composable
-fun RepositoryCardComponent(
+fun RepositoryCard(
     modifier: Modifier = Modifier,
-    gitRepository: GitRepository,
+    gitRepository: GitRepositoryDomain,
     onClick: () -> Unit
 ) {
     Card(
@@ -34,7 +34,7 @@ fun RepositoryCardComponent(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
-            AvatarComponent(
+            AvatarIcon(
                 modifier = Modifier.size(60.dp),
                 symbol = symbol,
                 imageUrl = gitRepository.avatar

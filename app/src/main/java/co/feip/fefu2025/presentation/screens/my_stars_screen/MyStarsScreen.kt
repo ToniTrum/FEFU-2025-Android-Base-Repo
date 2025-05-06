@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
-import co.feip.fefu2025.presentation.common_components.RepositoryCardComponent
+import co.feip.fefu2025.presentation.common_components.RepositoryCard
 import co.feip.fefu2025.presentation.common_components.StateManager
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.Navigator
@@ -89,7 +89,7 @@ fun MyStarsScreen(
             }
 
             items(gitRepositoryList) { gitRepository ->
-                RepositoryCardComponent(
+                RepositoryCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),

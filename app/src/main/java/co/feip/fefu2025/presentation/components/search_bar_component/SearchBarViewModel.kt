@@ -3,7 +3,7 @@ package co.feip.fefu2025.presentation.components.search_bar_component
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.feip.fefu2025.common.Resource
-import co.feip.fefu2025.domain.usecase.search_git_repository.SearchGitRepositoryUseCase
+import co.feip.fefu2025.domain.usecase.get_git_repository_list.SearchGitRepositoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

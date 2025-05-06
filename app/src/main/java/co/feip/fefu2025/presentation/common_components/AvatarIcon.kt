@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AvatarComponent(
+fun AvatarIcon(
     modifier: Modifier = Modifier,
     symbol: String,
     imageUrl: String? = null
