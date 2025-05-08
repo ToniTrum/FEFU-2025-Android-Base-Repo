@@ -21,6 +21,12 @@ android {
         versionName = "1.0"
     }
 
+    buildFeatures {
+        compose = true
+        viewBinding = true
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,17 +35,21 @@ android {
                 "proguard-rules.pro"
             )
         }
+        release {
+            buildConfigField("String", "GITLAB_API_TOKEN", "\"${properties["gitlabApiToken"]}\"")
+        }
+        debug {
+            buildConfigField("String", "GITLAB_API_TOKEN", "\"${properties["gitlabApiToken"]}\"")
+        }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
-        viewBinding = true
     }
 }
 

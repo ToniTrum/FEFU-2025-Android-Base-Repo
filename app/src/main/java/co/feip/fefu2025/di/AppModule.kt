@@ -1,5 +1,6 @@
 package co.feip.fefu2025.di
 
+import co.feip.fefu2025.BuildConfig
 import co.feip.fefu2025.data.mapper.GitRepositoryMapper
 import co.feip.fefu2025.data.remote.GitLabApiService
 import co.feip.fefu2025.data.repository.GitRepositoryRepositoryImpl
@@ -15,7 +16,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import firebase.com.protolitewrapper.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -39,7 +39,7 @@ object AppModule {
             .addInterceptor(logging)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Private-Token", "glpat-NyEmLQVCygy85oc3ssGp")
+                    .addHeader("Private-Token", BuildConfig.GITLAB_API_TOKEN)
                     .build()
                 chain.proceed(request)
             }
