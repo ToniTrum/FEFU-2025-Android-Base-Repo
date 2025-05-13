@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
+import co.feip.fefu2025.presentation.common_components.PaginationController
 import co.feip.fefu2025.presentation.common_components.RepositoryCard
 import co.feip.fefu2025.presentation.common_components.StateManager
 import co.feip.fefu2025.presentation.navigation.Destination
@@ -30,6 +31,8 @@ fun MyStarsScreen(
     viewModel: MyStarsViewModel = hiltViewModel(),
     navigator: Navigator
 ) {
+    val state by viewModel.state.collectAsState()
+
     LaunchedEffect(Unit) {
         viewModel.navigationEvent.collect { destination ->
             when(destination) {
@@ -41,7 +44,9 @@ fun MyStarsScreen(
         }
     }
 
-    val state by viewModel.state.collectAsState()
+    LaunchedEffect(state.currentPage) {
+        viewModel.getMyStars()
+    }
 
     LazyColumn(
         modifier = modifier
@@ -78,7 +83,7 @@ fun MyStarsScreen(
             StateManager(
                 state = state,
                 onClick = {
-                    viewModel.reloadData()
+                    viewModel.getMyStars()
                 }
             ) { }
         }
@@ -100,6 +105,16 @@ fun MyStarsScreen(
                         gitRepository = gitRepository,
                         onClick = {
                             viewModel.navigateToGitRepositoryDetailScreen(gitRepository.id)
+                        }
+                    )
+                }
+
+                item {
+                    PaginationController(
+                        currentPage = state.currentPage,
+                        hasNextPage = state.hasNextPage,
+                        onPageChange = { newPage ->
+                            viewModel.changePage(newPage)
                         }
                     )
                 }

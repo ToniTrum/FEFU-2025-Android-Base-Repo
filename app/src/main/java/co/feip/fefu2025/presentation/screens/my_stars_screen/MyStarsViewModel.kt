@@ -29,44 +29,35 @@ class MyStarsViewModel @Inject constructor(
         getMyStars()
     }
 
-    private fun getMyStars(
+    fun getMyStars(
         perPage: Int = 10,
-        page: Int = 1,
-        search: String = ""
     ) {
         getMyStarsUseCase(
             perPage = perPage,
-            page = page,
+            page = state.value.currentPage,
             starred = true,
-            search = search
         ).onEach { result ->
             when(result) {
                 is Resource.Success -> {
-                    _state.value = MyStarsState(
+                    _state.value = _state.value.copy(
                         gitRepositoryList = result.data?.gitRepositoryList ?: emptyList(),
-                        hasNextPage = result.data?.hasNextPage ?: false
+                        hasNextPage = result.data?.hasNextPage ?: false,
+                        isLoading = false,
+                        error = ""
                     )
                 }
                 is Resource.Error -> {
-                    _state.value = MyStarsState(error = result.message ?: "Unexpected error in MyStarsViewModel")
+                    _state.value = _state.value.copy(
+                        error = result.message ?: "Unexpected error in MyStarsViewModel"
+                    )
                 }
                 is Resource.Loading -> {
-                    _state.value = MyStarsState(isLoading = true)
+                    _state.value = _state.value.copy(
+                        isLoading = true
+                    )
                 }
             }
         }.launchIn(viewModelScope)
-    }
-
-    fun reloadData(
-        perPage: Int = 10,
-        page: Int = 1,
-        search: String = ""
-    ) {
-        getMyStars(
-            perPage = perPage,
-            page = page,
-            search = search
-        )
     }
 
     fun navigateToGitRepositoryDetailScreen(id: Int) {
@@ -79,5 +70,9 @@ class MyStarsViewModel @Inject constructor(
         viewModelScope.launch {
             _navigationEvent.emit(Destination.NavigateUp)
         }
+    }
+
+    fun changePage(newPage: Int) {
+        _state.value = _state.value.copy(currentPage = newPage)
     }
 }
