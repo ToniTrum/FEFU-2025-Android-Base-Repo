@@ -1,5 +1,6 @@
 package co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
@@ -41,6 +42,7 @@ class LanguageList @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun setText(language: Pair<String, Float>) {
         tvLanguage.text = language.first
         tvPercent.text = "${language.second} %"

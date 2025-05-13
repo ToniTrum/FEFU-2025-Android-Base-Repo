@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.feip.fefu2025.R
@@ -37,7 +38,7 @@ fun RepositoryCard(
             AvatarIcon(
                 modifier = Modifier.size(60.dp),
                 symbol = symbol,
-                imageUrl = gitRepository.avatar
+                avatarUrl = gitRepository.avatar
             )
 
             Column(
@@ -53,7 +54,9 @@ fun RepositoryCard(
                     Text(
                         text = it,
                         fontSize = 20.sp,
-                        color = Color.Gray
+                        color = Color.Gray,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 

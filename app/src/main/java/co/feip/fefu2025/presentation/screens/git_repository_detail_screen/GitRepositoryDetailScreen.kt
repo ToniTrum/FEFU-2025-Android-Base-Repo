@@ -6,7 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -68,18 +67,19 @@ fun GitRepositoryDetailScreen(
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.wrapContentHeight()
             ) {
                 val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
                 AvatarIcon(
                     modifier = Modifier.size(60.dp),
                     symbol = symbol,
-                    imageUrl = gitRepository.avatar
+                    avatarUrl = gitRepository.avatar
                 )
                 Text(
                     text = gitRepository.name,
                     fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = 48.sp
                 )
             }
 

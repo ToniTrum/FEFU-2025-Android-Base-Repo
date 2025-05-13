@@ -9,14 +9,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 @Composable
 fun AvatarIcon(
     modifier: Modifier = Modifier,
     symbol: String,
-    imageUrl: String? = null
+    avatarUrl: String? = null
 ) {
     Box(
         modifier = modifier
@@ -24,29 +28,23 @@ fun AvatarIcon(
             .background(Color.Gray),
         contentAlignment = Alignment.Center
     ) {
-//        if (imageUrl != null) {
-//            AsyncImage(
-//                model = ImageRequest.Builder(LocalContext.current)
-//                    .data(imageUrl)
-//                    .crossfade(true)
-//                    .build(),
-//                contentDescription = "Repository Avatar",
-//                modifier = Modifier.fillMaxSize(),
-//                contentScale = ContentScale.Crop
-//            )
-//        } else {
-//            Text(
-//                text = word.firstOrNull()?.uppercase() ?: "?",
-//                fontSize = 30.sp,
-//                fontWeight = FontWeight(350),
-//                color = Color.White
-//            )
-//        }
-        Text(
-            text = symbol,
-            fontSize = 30.sp,
-            fontWeight = FontWeight(350),
-            color = Color.White
-        )
+        if (avatarUrl != null) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(avatarUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "Repository Avatar",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Text(
+                text = symbol,
+                fontSize = 30.sp,
+                fontWeight = FontWeight(350),
+                color = Color.White
+            )
+        }
     }
 }
