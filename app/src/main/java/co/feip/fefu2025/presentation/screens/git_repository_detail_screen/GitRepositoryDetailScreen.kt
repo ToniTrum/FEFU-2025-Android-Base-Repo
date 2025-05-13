@@ -1,11 +1,13 @@
 package co.feip.fefu2025.presentation.screens.git_repository_detail_screen
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -49,7 +51,7 @@ fun GitRepositoryDetailScreen(
     StateManager(
         state = state,
         onClick = {
-            viewModel.reloadData()
+            viewModel.getGitRepositoryDetail(gitRepositoryId)
         }
     ) {
         val gitRepository = state.gitRepository
@@ -94,11 +96,53 @@ fun GitRepositoryDetailScreen(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                CounterWithIcon(
-                    modifier = Modifier.padding(2.dp),
-                    icon = painterResource(id = R.drawable.ic_star),
-                    text = stringResource(R.string.star_count, gitRepository.starCount)
-                )
+                if (state.isStarLoading) {
+                    CircularProgressIndicator()
+                }
+                else if (state.starError.isNotEmpty()) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.error_message, state.error)
+                        )
+
+                        Button(
+                            onClick = { viewModel.checkStar(gitRepositoryId) }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.try_again)
+                            )
+                        }
+                    }
+                }
+                else {
+                    Row(
+                        modifier = Modifier.clickable {
+                            if (state.isStarred) {
+                                viewModel.unstarGitRepository(gitRepositoryId)
+                            }
+                            else {
+                                viewModel.starGitRepository(gitRepositoryId)
+                            }
+                        }
+                    ) {
+                        val iconId = if (state.isStarred) {
+                            R.drawable.ic_star_starred
+                        }
+                        else {
+                            R.drawable.ic_star
+                        }
+                        CounterWithIcon(
+                            modifier = Modifier.padding(2.dp),
+                            icon = painterResource(id = iconId),
+                            text = stringResource(R.string.star_count, gitRepository.starCount)
+                        )
+                    }
+                }
+
                 CounterWithIcon(
                     modifier = Modifier.padding(2.dp),
                     icon = painterResource(id = R.drawable.ic_fork),

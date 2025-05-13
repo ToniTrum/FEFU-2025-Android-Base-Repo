@@ -7,6 +7,8 @@ import co.feip.fefu2025.data.repository.GitRepositoryRepositoryImpl
 import co.feip.fefu2025.domain.repository.GitRepositoryRepository
 import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetGitRepositoryListUseCase
 import co.feip.fefu2025.domain.usecase.get_git_repository_detail.GetGitRepositoryDetailUseCase
+import co.feip.fefu2025.domain.usecase.star_git_repository.StarGitRepositoryUseCase
+import co.feip.fefu2025.domain.usecase.star_git_repository.UnstarGitRepositoryUseCase
 import co.feip.fefu2025.presentation.navigation.DefaultNavigator
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.Navigator
@@ -85,5 +87,21 @@ object AppModule {
         mapper: GitRepositoryMapper
     ): GetGitRepositoryDetailUseCase {
         return GetGitRepositoryDetailUseCase(repository, mapper)
+    }
+
+    @Provides
+    fun provideStarGitRepositoryUseCase(
+        repository: GitRepositoryRepository,
+        mapper: GitRepositoryMapper
+    ): StarGitRepositoryUseCase {
+        return StarGitRepositoryUseCase(repository, mapper)
+    }
+
+    @Provides
+    fun provideUnstarGitRepositoryUseCase(
+        repository: GitRepositoryRepository,
+        mapper: GitRepositoryMapper
+    ): UnstarGitRepositoryUseCase {
+        return UnstarGitRepositoryUseCase(repository, mapper)
     }
 }

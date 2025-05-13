@@ -35,6 +35,26 @@ class GitRepositoryRepositoryImpl @Inject constructor(
         return api.getLanguagesUsed(gitRepositoryId)
     }
 
+    override suspend fun starGitRepository(gitRepositoryId: Int): GitRepositoryDto {
+        val response = api.starGitRepository(gitRepositoryId)
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Empty response body")
+        }
+        else {
+            throw Exception("Failed to star project: ${response.message()}")
+        }
+    }
+
+    override suspend fun unstarGitRepository(gitRepositoryId: Int): GitRepositoryDto {
+        val response = api.unstarGitRepository(gitRepositoryId)
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Empty response body")
+        }
+        else {
+            throw Exception("Failed to star project: ${response.message()}")
+        }
+    }
+
     private fun handleResponse(response: Response<List<GitRepositoryDto>>): GitRepositoryListResultDto {
         if (response.isSuccessful) {
             val gitRepositoryList = response.body() ?: emptyList()

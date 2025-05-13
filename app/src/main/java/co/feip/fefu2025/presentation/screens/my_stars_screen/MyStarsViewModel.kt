@@ -50,7 +50,8 @@ class MyStarsViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = _state.value.copy(
-                        error = result.message ?: "Unexpected error in MyStarsViewModel"
+                        error = result.message ?: "Unexpected error in MyStarsViewModel",
+                        isLoading = false
                     )
                 }
                 is Resource.Loading -> {

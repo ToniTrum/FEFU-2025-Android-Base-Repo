@@ -50,7 +50,8 @@ class GitRepositoryListViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = _state.value.copy(
-                        error = result.message ?: "Unexpected error in GitRepositoryListViewModel"
+                        error = result.message ?: "Unexpected error in GitRepositoryListViewModel",
+                        isLoading = false
                     )
                 }
                 is Resource.Loading -> {
@@ -78,7 +79,8 @@ class GitRepositoryListViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = _state.value.copy(
-                        error = result.message ?: "Unexpected error in GitRepositoryListViewModel"
+                        error = result.message ?: "Unexpected error in GitRepositoryListViewModel",
+                        isLoading = false
                     )
                 }
                 is Resource.Loading -> {

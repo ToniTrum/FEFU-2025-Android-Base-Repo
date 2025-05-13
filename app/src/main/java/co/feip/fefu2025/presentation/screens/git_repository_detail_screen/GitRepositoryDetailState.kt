@@ -6,5 +6,8 @@ import co.feip.fefu2025.domain.model.GitRepositoryDetailDomain
 data class GitRepositoryDetailState(
     override val isLoading: Boolean = false,
     val gitRepository: GitRepositoryDetailDomain? = null,
-    override val error: String = ""
+    override val error: String = "",
+    val isStarred: Boolean = false,
+    val isStarLoading: Boolean = false,
+    val starError: String = ""
 ) : BaseState

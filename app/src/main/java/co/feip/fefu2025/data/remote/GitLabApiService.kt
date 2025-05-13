@@ -4,6 +4,7 @@ import co.feip.fefu2025.data.model.dto.GitRepositoryDetailDto
 import co.feip.fefu2025.data.model.dto.GitRepositoryDto
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,4 +26,14 @@ interface GitLabApiService {
     suspend fun getLanguagesUsed(
         @Path("git_repository_id") gitRepositoryId: Int
     ): Map<String, Float>
+
+    @POST("projects/{git_repository_id}/star")
+    suspend fun starGitRepository(
+        @Path("git_repository_id") gitRepositoryId: Int
+    ): Response<GitRepositoryDto>
+
+    @POST("projects/{git_repository_id}/unstar")
+    suspend fun unstarGitRepository(
+        @Path("git_repository_id") gitRepositoryId: Int
+    ): Response<GitRepositoryDto>
 }
