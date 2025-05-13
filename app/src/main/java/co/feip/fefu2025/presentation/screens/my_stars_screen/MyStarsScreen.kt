@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -22,16 +23,36 @@ import co.feip.fefu2025.R
 import co.feip.fefu2025.presentation.common_components.PaginationController
 import co.feip.fefu2025.presentation.common_components.RepositoryCard
 import co.feip.fefu2025.presentation.common_components.StateManager
+import co.feip.fefu2025.presentation.fragments.search_bar_fragment.SearchBarFragment
+import co.feip.fefu2025.presentation.fragments.search_bar_fragment.SearchBarViewModel
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.Navigator
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 
+@OptIn(FlowPreview::class)
 @Composable
 fun MyStarsScreen(
     modifier: Modifier = Modifier,
     viewModel: MyStarsViewModel = hiltViewModel(),
+    searchBarViewModel: SearchBarViewModel = hiltViewModel(),
     navigator: Navigator
 ) {
     val state by viewModel.state.collectAsState()
+    val searchQuery by searchBarViewModel.searchQuery.collectAsState()
+
+    LaunchedEffect(searchQuery) {
+        snapshotFlow { searchQuery }
+            .debounce(400)
+            .collect { query ->
+                viewModel.changePage(1)
+                viewModel.getMyStars(search = query)
+            }
+    }
+
+    LaunchedEffect(state.currentPage) {
+        viewModel.getMyStars()
+    }
 
     LaunchedEffect(Unit) {
         viewModel.navigationEvent.collect { destination ->
@@ -44,13 +65,16 @@ fun MyStarsScreen(
         }
     }
 
-    LaunchedEffect(state.currentPage) {
-        viewModel.getMyStars()
-    }
-
     LazyColumn(
         modifier = modifier
     ) {
+        item {
+            SearchBarFragment(
+                modifier = Modifier.fillMaxWidth(),
+                viewModel = searchBarViewModel
+            )
+        }
+
         item {
             Button(
                 onClick = {

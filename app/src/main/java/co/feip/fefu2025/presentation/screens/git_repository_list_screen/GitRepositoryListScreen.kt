@@ -45,8 +45,8 @@ fun GitRepositoryListScreen(
         snapshotFlow { searchQuery }
             .debounce(400)
             .collect { query ->
-                viewModel.getGitRepositoryList(search = query)
                 viewModel.changePage(1)
+                viewModel.getGitRepositoryList(search = query)
             }
     }
 

@@ -31,11 +31,13 @@ class MyStarsViewModel @Inject constructor(
 
     fun getMyStars(
         perPage: Int = 10,
+        search: String = ""
     ) {
         getMyStarsUseCase(
             perPage = perPage,
             page = state.value.currentPage,
             starred = true,
+            search = search
         ).onEach { result ->
             when(result) {
                 is Resource.Success -> {
