@@ -6,5 +6,6 @@ import co.feip.fefu2025.domain.model.GitRepositoryDomain
 data class GitRepositoryListState(
     override val isLoading: Boolean = false,
     val gitRepositoryList: List<GitRepositoryDomain> = emptyList(),
+    val myStars: List<GitRepositoryDomain> = emptyList(),
     override val error: String = ""
 ) : BaseState

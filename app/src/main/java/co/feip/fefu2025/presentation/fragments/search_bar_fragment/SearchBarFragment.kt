@@ -1,4 +1,4 @@
-package co.feip.fefu2025.presentation.components.search_bar_component
+package co.feip.fefu2025.presentation.fragments.search_bar_fragment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
 
 @Composable
-fun SearchBarComponent(
+fun SearchBarFragment(
     modifier: Modifier = Modifier,
     viewModel: SearchBarViewModel = hiltViewModel()
 ) {

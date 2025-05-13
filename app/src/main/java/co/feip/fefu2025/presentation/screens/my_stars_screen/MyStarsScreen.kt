@@ -43,61 +43,66 @@ fun MyStarsScreen(
 
     val state by viewModel.state.collectAsState()
 
-    StateManager(
-        state = state,
-        onClick = {
-            viewModel.reloadData()
-        }
+    LazyColumn(
+        modifier = modifier
     ) {
-        val gitRepositoryList = state.gitRepositoryList
-        if (gitRepositoryList.isEmpty()) {
-            Text(
-                text = stringResource(R.string.screen_not_found)
-            )
-            return@StateManager
+        item {
+            Button(
+                onClick = {
+                    viewModel.navigateToBack()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.Black
+                )
+            ) {
+                Text(
+                    text = stringResource(R.string.back),
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
         }
 
-        LazyColumn (
-            modifier = modifier
-        ) {
-            item {
-                Button(
-                    onClick = {
-                        viewModel.navigateToBack()
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color.Black
-                    )
-                ) {
+        item {
+            Text(
+                text = stringResource(R.string.my_stars),
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(15.dp)
+            )
+        }
+
+        item {
+            StateManager(
+                state = state,
+                onClick = {
+                    viewModel.reloadData()
+                }
+            ) { }
+        }
+
+        if (!state.isLoading && state.error.isEmpty()) {
+            if (state.gitRepositoryList.isEmpty()) {
+                item {
                     Text(
-                        text = stringResource(R.string.back),
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(8.dp)
+                        text = stringResource(R.string.repository_not_found),
+                        modifier = Modifier.padding(15.dp)
                     )
                 }
-            }
-
-            item {
-                Text(
-                    text = stringResource(R.string.my_stars),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(15.dp)
-                )
-            }
-
-            items(gitRepositoryList) { gitRepository ->
-                RepositoryCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    gitRepository =  gitRepository,
-                    onClick = {
-                        viewModel.navigateToGitRepositoryDetailScreen(gitRepository.id)
-                    }
-                )
+            } else {
+                items(state.gitRepositoryList) { gitRepository ->
+                    RepositoryCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        gitRepository = gitRepository,
+                        onClick = {
+                            viewModel.navigateToGitRepositoryDetailScreen(gitRepository.id)
+                        }
+                    )
+                }
             }
         }
     }

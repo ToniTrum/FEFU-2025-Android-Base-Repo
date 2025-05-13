@@ -7,8 +7,6 @@ import co.feip.fefu2025.data.repository.GitRepositoryRepositoryImpl
 import co.feip.fefu2025.domain.repository.GitRepositoryRepository
 import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetGitRepositoryListUseCase
 import co.feip.fefu2025.domain.usecase.get_git_repository_detail.GetGitRepositoryDetailUseCase
-import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetMyStarsUseCase
-import co.feip.fefu2025.domain.usecase.get_git_repository_list.SearchGitRepositoryUseCase
 import co.feip.fefu2025.presentation.navigation.DefaultNavigator
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.Navigator
@@ -39,7 +37,7 @@ object AppModule {
             .addInterceptor(logging)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Private-Token", BuildConfig.GITLAB_API_TOKEN)
+                    .addHeader("PRIVATE-TOKEN", BuildConfig.GITLAB_API_TOKEN)
                     .build()
                 chain.proceed(request)
             }
@@ -48,7 +46,8 @@ object AppModule {
 
     @Provides
     fun provideGitLabApiService(
-        baseUrl: String, client: OkHttpClient
+        baseUrl: String,
+        client: OkHttpClient
     ): GitLabApiService {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -86,21 +85,5 @@ object AppModule {
         mapper: GitRepositoryMapper
     ): GetGitRepositoryDetailUseCase {
         return GetGitRepositoryDetailUseCase(repository, mapper)
-    }
-
-    @Provides
-    fun provideGetMyStarsUseCase(
-        repository: GitRepositoryRepository,
-        mapper: GitRepositoryMapper
-    ): GetMyStarsUseCase {
-        return GetMyStarsUseCase(repository, mapper)
-    }
-
-    @Provides
-    fun provideSearchGitRepositoryUseCase(
-        repository: GitRepositoryRepository,
-        mapper: GitRepositoryMapper
-    ): SearchGitRepositoryUseCase {
-        return SearchGitRepositoryUseCase(repository, mapper)
     }
 }

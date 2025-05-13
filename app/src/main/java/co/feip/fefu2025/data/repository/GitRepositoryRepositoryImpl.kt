@@ -9,8 +9,18 @@ import javax.inject.Inject
 class GitRepositoryRepositoryImpl @Inject constructor(
     private val api: GitLabApiService
 ): GitRepositoryRepository {
-    override suspend fun getGitRepositoryList(): List<GitRepositoryDto> {
-        return api.getGitRepositoryList()
+    override suspend fun getGitRepositoryList(
+        perPage: Int,
+        page: Int,
+        starred: Boolean,
+        search: String
+    ): List<GitRepositoryDto> {
+        return api.getGitRepositoryList(
+            perPage = perPage,
+            page = page,
+            starred = starred,
+            search = search
+        )
     }
 
     override suspend fun getGitRepositoryDetail(gitRepositoryId: Int): GitRepositoryDetailDto {
@@ -19,13 +29,5 @@ class GitRepositoryRepositoryImpl @Inject constructor(
 
     override suspend fun getLanguagesUsed(gitRepositoryId: Int): Map<String, Float> {
         return api.getLanguagesUsed(gitRepositoryId)
-    }
-
-    override suspend fun getMyStars(): List<GitRepositoryDto> {
-        return api.getGitRepositoryList(starred = true)
-    }
-
-    override suspend fun searchGitRepository(query: String): List<GitRepositoryDto> {
-        return api.getGitRepositoryList(search = query)
     }
 }

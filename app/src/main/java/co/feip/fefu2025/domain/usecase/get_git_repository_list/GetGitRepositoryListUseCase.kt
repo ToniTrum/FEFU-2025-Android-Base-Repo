@@ -14,12 +14,22 @@ class GetGitRepositoryListUseCase @Inject constructor(
     private val repository: GitRepositoryRepository,
     private val mapper: GitRepositoryMapper
 ) {
-    operator fun invoke(): Flow<Resource<List<GitRepositoryDomain>>> = flow {
+    operator fun invoke(
+        perPage: Int = 10,
+        page: Int = 1,
+        starred: Boolean = false,
+        search: String = ""
+    ): Flow<Resource<List<GitRepositoryDomain>>> = flow {
         try {
             emit(Resource.Loading())
-            val gitRepositoryList = repository.getGitRepositoryList().map {
-                mapper.toGitRepositoryDomain(it)
-            }
+            val gitRepositoryList = repository.getGitRepositoryList(
+                perPage = perPage,
+                page = page,
+                starred = starred,
+                search = search
+            ).map {
+                    mapper.toGitRepositoryDomain(it)
+                }
             emit(Resource.Success(gitRepositoryList))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error in GetGitRepositoryListUseCase"))

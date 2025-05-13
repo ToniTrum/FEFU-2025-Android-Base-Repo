@@ -3,7 +3,7 @@ package co.feip.fefu2025.presentation.screens.my_stars_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.feip.fefu2025.common.Resource
-import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetMyStarsUseCase
+import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetGitRepositoryListUseCase
 import co.feip.fefu2025.presentation.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyStarsViewModel @Inject constructor(
-    private val getMyStarsUseCase: GetMyStarsUseCase
+    private val getMyStarsUseCase: GetGitRepositoryListUseCase
 ): ViewModel() {
     private val _state = MutableStateFlow(MyStarsState())
     val state: StateFlow<MyStarsState> = _state
@@ -29,8 +29,17 @@ class MyStarsViewModel @Inject constructor(
         getMyStars()
     }
 
-    private fun getMyStars() {
-        getMyStarsUseCase().onEach { result ->
+    private fun getMyStars(
+        perPage: Int = 10,
+        page: Int = 1,
+        search: String = ""
+    ) {
+        getMyStarsUseCase(
+            perPage = perPage,
+            page = page,
+            starred = true,
+            search = search
+        ).onEach { result ->
             when(result) {
                 is Resource.Success -> {
                     _state.value = MyStarsState(gitRepositoryList = result.data ?: emptyList())
@@ -45,8 +54,16 @@ class MyStarsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun reloadData() {
-        getMyStars()
+    fun reloadData(
+        perPage: Int = 10,
+        page: Int = 1,
+        search: String = ""
+    ) {
+        getMyStars(
+            perPage = perPage,
+            page = page,
+            search = search
+        )
     }
 
     fun navigateToGitRepositoryDetailScreen(id: Int) {
