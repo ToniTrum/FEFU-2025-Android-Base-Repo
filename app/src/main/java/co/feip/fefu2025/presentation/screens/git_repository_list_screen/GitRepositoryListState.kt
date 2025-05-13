@@ -7,5 +7,7 @@ data class GitRepositoryListState(
     override val isLoading: Boolean = false,
     val gitRepositoryList: List<GitRepositoryDomain> = emptyList(),
     val myStars: List<GitRepositoryDomain> = emptyList(),
-    override val error: String = ""
+    override val error: String = "",
+    val currentPage: Int = 1,
+    val hasNextPage: Boolean = false
 ) : BaseState

@@ -42,7 +42,10 @@ class MyStarsViewModel @Inject constructor(
         ).onEach { result ->
             when(result) {
                 is Resource.Success -> {
-                    _state.value = MyStarsState(gitRepositoryList = result.data ?: emptyList())
+                    _state.value = MyStarsState(
+                        gitRepositoryList = result.data?.gitRepositoryList ?: emptyList(),
+                        hasNextPage = result.data?.hasNextPage ?: false
+                    )
                 }
                 is Resource.Error -> {
                     _state.value = MyStarsState(error = result.message ?: "Unexpected error in MyStarsViewModel")

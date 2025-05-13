@@ -2,7 +2,7 @@ package co.feip.fefu2025.domain.usecase.get_git_repository_list
 
 import co.feip.fefu2025.common.Resource
 import co.feip.fefu2025.data.mapper.GitRepositoryMapper
-import co.feip.fefu2025.domain.model.GitRepositoryDomain
+import co.feip.fefu2025.domain.model.GitRepositoryListResultDomain
 import co.feip.fefu2025.domain.repository.GitRepositoryRepository
 import coil.network.HttpException
 import kotlinx.coroutines.flow.Flow
@@ -19,18 +19,22 @@ class GetGitRepositoryListUseCase @Inject constructor(
         page: Int = 1,
         starred: Boolean = false,
         search: String = ""
-    ): Flow<Resource<List<GitRepositoryDomain>>> = flow {
+    ): Flow<Resource<GitRepositoryListResultDomain>> = flow {
         try {
             emit(Resource.Loading())
-            val gitRepositoryList = repository.getGitRepositoryList(
+            val response = repository.getGitRepositoryList(
                 perPage = perPage,
                 page = page,
                 starred = starred,
                 search = search
-            ).map {
+            )
+            val gitRepositoryList = response.gitRepositoryList.map {
                     mapper.toGitRepositoryDomain(it)
                 }
-            emit(Resource.Success(gitRepositoryList))
+            emit(Resource.Success(GitRepositoryListResultDomain(
+                gitRepositoryList = gitRepositoryList,
+                hasNextPage = response.hasNextPage
+            )))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error in GetGitRepositoryListUseCase"))
         } catch (e: IOException) {

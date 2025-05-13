@@ -1,7 +1,7 @@
 package co.feip.fefu2025.domain.repository
 
 import co.feip.fefu2025.data.model.dto.GitRepositoryDetailDto
-import co.feip.fefu2025.data.model.dto.GitRepositoryDto
+import co.feip.fefu2025.data.model.dto.GitRepositoryListResultDto
 
 interface GitRepositoryRepository {
     suspend fun getGitRepositoryList(
@@ -9,7 +9,7 @@ interface GitRepositoryRepository {
         page: Int,
         starred: Boolean,
         search: String
-    ): List<GitRepositoryDto>
+    ): GitRepositoryListResultDto
     suspend fun getGitRepositoryDetail(gitRepositoryId: Int): GitRepositoryDetailDto
     suspend fun getLanguagesUsed(gitRepositoryId: Int): Map<String, Float>
 }

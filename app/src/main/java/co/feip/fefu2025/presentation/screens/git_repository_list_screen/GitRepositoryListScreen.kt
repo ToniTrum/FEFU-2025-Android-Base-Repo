@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
+import co.feip.fefu2025.presentation.common_components.PaginationController
 import co.feip.fefu2025.presentation.common_components.RepositoryCard
 import co.feip.fefu2025.presentation.fragments.search_bar_fragment.SearchBarFragment
 import co.feip.fefu2025.presentation.common_components.StateManager
@@ -44,8 +45,13 @@ fun GitRepositoryListScreen(
         snapshotFlow { searchQuery }
             .debounce(400)
             .collect { query ->
-                viewModel.reloadData(search = query)
+                viewModel.getGitRepositoryList(search = query)
+                viewModel.changePage(1)
             }
+    }
+
+    LaunchedEffect(state.currentPage) {
+        viewModel.getGitRepositoryList(search = searchQuery)
     }
 
     LaunchedEffect(Unit) {
@@ -88,7 +94,7 @@ fun GitRepositoryListScreen(
                 StateManager(
                     state = state,
                     onClick = {
-                        viewModel.reloadData()
+                        viewModel.getMyStars()
                     }
                 ) { }
             }
@@ -135,7 +141,7 @@ fun GitRepositoryListScreen(
             StateManager(
                 state = state,
                 onClick = {
-                    viewModel.reloadData()
+                    viewModel.getGitRepositoryList()
                 }
             ) { }
         }
@@ -157,6 +163,16 @@ fun GitRepositoryListScreen(
                         gitRepository = gitRepository,
                         onClick = {
                             viewModel.navigateToGitRepositoryDetailScreen(gitRepository.id)
+                        }
+                    )
+                }
+
+                item {
+                    PaginationController(
+                        currentPage = state.currentPage,
+                        hasNextPage = state.hasNextPage,
+                        onPageChange = { newPage ->
+                            viewModel.changePage(newPage)
                         }
                     )
                 }

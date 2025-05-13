@@ -2,6 +2,7 @@ package co.feip.fefu2025.data.remote
 
 import co.feip.fefu2025.data.model.dto.GitRepositoryDetailDto
 import co.feip.fefu2025.data.model.dto.GitRepositoryDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,7 +14,7 @@ interface GitLabApiService {
         @Query("page") page: Int = 1,
         @Query("starred") starred: Boolean = false,
         @Query("search") search: String = ""
-    ): List<GitRepositoryDto>
+    ): Response<List<GitRepositoryDto>>
 
     @GET("projects/{git_repository_id}")
     suspend fun getGitRepositoryDetail(
