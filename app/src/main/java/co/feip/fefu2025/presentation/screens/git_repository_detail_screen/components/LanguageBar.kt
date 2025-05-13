@@ -10,23 +10,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import co.feip.fefu2025.common.languageMap
+import co.feip.fefu2025.domain.model.LanguageUsedDomain
 
 @Composable
-fun LanguageBarComponent(
+fun LanguageBar(
     modifier: Modifier = Modifier,
-    languages: List<Pair<String, Float>>
+    languages: List<LanguageUsedDomain>
 ) {
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(50))
     ) {
         languages.forEach { (language, percent) ->
-            Box(
-                modifier = Modifier
-                    .weight(percent)
-                    .background(color = Color(languageMap[language] ?: Color.Gray.value.toInt()))
-                    .fillMaxHeight()
-            )
+            if (percent != 0f)
+            {
+                Box(
+                    modifier = Modifier
+                        .weight(percent)
+                        .background(
+                            color = languageMap[language]?.let {
+                                Color(it)
+                            } ?: Color.Gray
+                        )
+                        .fillMaxHeight()
+                )
+            }
         }
     }
 }

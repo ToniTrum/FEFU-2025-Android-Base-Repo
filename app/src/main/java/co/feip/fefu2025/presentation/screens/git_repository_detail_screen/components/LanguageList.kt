@@ -1,5 +1,6 @@
 package co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
@@ -10,7 +11,7 @@ import android.view.View
 import co.feip.fefu2025.R
 import androidx.core.content.withStyledAttributes
 
-class LanguageListComponent @JvmOverloads constructor(
+class LanguageList @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -37,11 +38,11 @@ class LanguageListComponent @JvmOverloads constructor(
 
                 setText(language)
                 setDotColor(dotColor)
-
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun setText(language: Pair<String, Float>) {
         tvLanguage.text = language.first
         tvPercent.text = "${language.second} %"

@@ -1,10 +1,14 @@
 package co.feip.fefu2025.di
 
-import co.feip.fefu2025.di.mock.FakeGitRepositoryRepository
+import co.feip.fefu2025.BuildConfig
+import co.feip.fefu2025.data.mapper.GitRepositoryMapper
+import co.feip.fefu2025.data.remote.GitLabApiService
+import co.feip.fefu2025.data.repository.GitRepositoryRepositoryImpl
 import co.feip.fefu2025.domain.repository.GitRepositoryRepository
 import co.feip.fefu2025.domain.usecase.get_git_repository_list.GetGitRepositoryListUseCase
 import co.feip.fefu2025.domain.usecase.get_git_repository_detail.GetGitRepositoryDetailUseCase
-import co.feip.fefu2025.domain.usecase.search_git_repository.SearchGitRepositoryUseCase
+import co.feip.fefu2025.domain.usecase.star_git_repository.StarGitRepositoryUseCase
+import co.feip.fefu2025.domain.usecase.star_git_repository.UnstarGitRepositoryUseCase
 import co.feip.fefu2025.presentation.navigation.DefaultNavigator
 import co.feip.fefu2025.presentation.navigation.Destination
 import co.feip.fefu2025.presentation.navigation.Navigator
@@ -12,11 +16,49 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Provides
+    fun provideBaseUrl(): String = "https://gitlab.com/api/v4/"
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        return OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("PRIVATE-TOKEN", BuildConfig.GITLAB_API_TOKEN)
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+    }
+
+    @Provides
+    fun provideGitLabApiService(
+        baseUrl: String,
+        client: OkHttpClient
+    ): GitLabApiService {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(GitLabApiService::class.java)
+    }
+
     @Provides
     @Singleton
     fun provideNavigator(): Navigator {
@@ -25,28 +67,41 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGitRepositoryRepository(): GitRepositoryRepository {
-        return FakeGitRepositoryRepository()
+    fun provideGitRepositoryRepository(
+        api: GitLabApiService
+    ): GitRepositoryRepository {
+        return GitRepositoryRepositoryImpl(api)
     }
 
     @Provides
     fun provideGetGitRepositoryListUseCase(
-        repository: GitRepositoryRepository
+        repository: GitRepositoryRepository,
+        mapper: GitRepositoryMapper
     ): GetGitRepositoryListUseCase {
-        return GetGitRepositoryListUseCase(repository)
+        return GetGitRepositoryListUseCase(repository, mapper)
     }
 
     @Provides
     fun provideGetGitRepositoryDetailUseCase(
-        repository: GitRepositoryRepository
+        repository: GitRepositoryRepository,
+        mapper: GitRepositoryMapper
     ): GetGitRepositoryDetailUseCase {
-        return GetGitRepositoryDetailUseCase(repository)
+        return GetGitRepositoryDetailUseCase(repository, mapper)
     }
 
     @Provides
-    fun provideSearchGitRepositoryUseCase(
-        repository: GitRepositoryRepository
-    ): SearchGitRepositoryUseCase {
-        return SearchGitRepositoryUseCase(repository)
+    fun provideStarGitRepositoryUseCase(
+        repository: GitRepositoryRepository,
+        mapper: GitRepositoryMapper
+    ): StarGitRepositoryUseCase {
+        return StarGitRepositoryUseCase(repository, mapper)
+    }
+
+    @Provides
+    fun provideUnstarGitRepositoryUseCase(
+        repository: GitRepositoryRepository,
+        mapper: GitRepositoryMapper
+    ): UnstarGitRepositoryUseCase {
+        return UnstarGitRepositoryUseCase(repository, mapper)
     }
 }

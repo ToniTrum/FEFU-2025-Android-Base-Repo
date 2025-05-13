@@ -1,10 +1,13 @@
 package co.feip.fefu2025.presentation.screens.git_repository_list_screen
 
 import co.feip.fefu2025.common.BaseState
-import co.feip.fefu2025.domain.model.GitRepository
+import co.feip.fefu2025.domain.model.GitRepositoryDomain
 
 data class GitRepositoryListState(
     override val isLoading: Boolean = false,
-    val gitRepositoryList: List<GitRepository> = emptyList(),
-    override val error: String = ""
+    val gitRepositoryList: List<GitRepositoryDomain> = emptyList(),
+    val myStars: List<GitRepositoryDomain> = emptyList(),
+    override val error: String = "",
+    val currentPage: Int = 1,
+    val hasNextPage: Boolean = false
 ) : BaseState

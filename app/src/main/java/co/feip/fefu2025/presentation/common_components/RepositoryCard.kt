@@ -11,15 +11,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.feip.fefu2025.R
-import co.feip.fefu2025.domain.model.GitRepository
+import co.feip.fefu2025.domain.model.GitRepositoryDomain
 
 @Composable
-fun RepositoryCardComponent(
+fun RepositoryCard(
     modifier: Modifier = Modifier,
-    gitRepository: GitRepository,
+    gitRepository: GitRepositoryDomain,
     onClick: () -> Unit
 ) {
     Card(
@@ -34,10 +35,10 @@ fun RepositoryCardComponent(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
-            AvatarComponent(
+            AvatarIcon(
                 modifier = Modifier.size(60.dp),
                 symbol = symbol,
-                imageUrl = gitRepository.avatar
+                avatarUrl = gitRepository.avatar
             )
 
             Column(
@@ -53,7 +54,9 @@ fun RepositoryCardComponent(
                     Text(
                         text = it,
                         fontSize = 20.sp,
-                        color = Color.Gray
+                        color = Color.Gray,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 

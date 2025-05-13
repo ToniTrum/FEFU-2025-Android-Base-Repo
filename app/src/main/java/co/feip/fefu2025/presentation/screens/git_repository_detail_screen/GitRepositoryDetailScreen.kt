@@ -1,6 +1,7 @@
 package co.feip.fefu2025.presentation.screens.git_repository_detail_screen
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.feip.fefu2025.R
-import co.feip.fefu2025.presentation.common_components.AvatarComponent
+import co.feip.fefu2025.presentation.common_components.AvatarIcon
 import co.feip.fefu2025.presentation.common_components.CounterWithIcon
 import co.feip.fefu2025.presentation.common_components.StateManager
-import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.LanguageBarComponent
-import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.UsedLanguagesComponent
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.LanguageBar
+import co.feip.fefu2025.presentation.screens.git_repository_detail_screen.components.UsedLanguagesList
 import co.feip.fefu2025.presentation.navigation.Navigator
 import kotlin.math.round
 
@@ -50,7 +51,7 @@ fun GitRepositoryDetailScreen(
     StateManager(
         state = state,
         onClick = {
-            viewModel.reloadData()
+            viewModel.getGitRepositoryDetail(gitRepositoryId)
         }
     ) {
         val gitRepository = state.gitRepository
@@ -68,18 +69,19 @@ fun GitRepositoryDetailScreen(
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.wrapContentHeight()
             ) {
                 val symbol: String = gitRepository.name.firstOrNull()?.uppercase() ?: "?"
-                AvatarComponent(
+                AvatarIcon(
                     modifier = Modifier.size(60.dp),
                     symbol = symbol,
-                    imageUrl = gitRepository.avatar
+                    avatarUrl = gitRepository.avatar
                 )
                 Text(
                     text = gitRepository.name,
                     fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = 48.sp
                 )
             }
 
@@ -94,11 +96,53 @@ fun GitRepositoryDetailScreen(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                CounterWithIcon(
-                    modifier = Modifier.padding(2.dp),
-                    icon = painterResource(id = R.drawable.ic_star),
-                    text = stringResource(R.string.star_count, gitRepository.starCount)
-                )
+                if (state.isStarLoading) {
+                    CircularProgressIndicator()
+                }
+                else if (state.starError.isNotEmpty()) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.error_message, state.error)
+                        )
+
+                        Button(
+                            onClick = { viewModel.checkStar(gitRepositoryId) }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.try_again)
+                            )
+                        }
+                    }
+                }
+                else {
+                    Row(
+                        modifier = Modifier.clickable {
+                            if (state.isStarred) {
+                                viewModel.unstarGitRepository(gitRepositoryId)
+                            }
+                            else {
+                                viewModel.starGitRepository(gitRepositoryId)
+                            }
+                        }
+                    ) {
+                        val iconId = if (state.isStarred) {
+                            R.drawable.ic_star_starred
+                        }
+                        else {
+                            R.drawable.ic_star
+                        }
+                        CounterWithIcon(
+                            modifier = Modifier.padding(2.dp),
+                            icon = painterResource(id = iconId),
+                            text = stringResource(R.string.star_count, gitRepository.starCount)
+                        )
+                    }
+                }
+
                 CounterWithIcon(
                     modifier = Modifier.padding(2.dp),
                     icon = painterResource(id = R.drawable.ic_fork),
@@ -111,22 +155,26 @@ fun GitRepositoryDetailScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    val languages = (gitRepository.languages)
-                        .map{ (language, percent) -> language to round(percent * 10) / 10 }
+                    val languages = (gitRepository.languages).map{ language ->
+                        Pair(
+                            language.name,
+                            round(language.percent * 10) / 10
+                        )
+                    }
 
                     Text(
                         text = stringResource(R.string.language_used),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    LanguageBarComponent(
+                    LanguageBar(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(5.dp)
                             .height(10.dp),
                         languages = gitRepository.languages
                     )
-                    UsedLanguagesComponent(
+                    UsedLanguagesList(
                         languages = languages,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -140,7 +188,7 @@ fun GitRepositoryDetailScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = gitRepository.createdAt.toString(),
+                    text = gitRepository.createdAt,
                     fontSize = 20.sp
                 )
             }

@@ -6,7 +6,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import co.feip.fefu2025.common.languageMap
 
 @Composable
-fun UsedLanguagesComponent(
+fun UsedLanguagesList(
     modifier: Modifier = Modifier,
     languages: List<Pair<String, Float>>
 ) {
@@ -15,7 +15,7 @@ fun UsedLanguagesComponent(
         factory = { context ->
             FlexBoxLayout(context).apply {
                 languages.forEach { language ->
-                    val languageView = LanguageListComponent(context).apply {
+                    val languageView = LanguageList(context).apply {
                         setText(language)
                         setDotColor(languageMap[language.first] ?: 0xFF000000.toInt())
                     }
@@ -26,7 +26,7 @@ fun UsedLanguagesComponent(
         update = { customLayout ->
             customLayout.removeAllViews()
             languages.forEach { language ->
-                val languageView = LanguageListComponent(customLayout.context).apply {
+                val languageView = LanguageList(customLayout.context).apply {
                     setText(language)
                     setDotColor(languageMap[language.first] ?: 0xFF000000.toInt())
                 }

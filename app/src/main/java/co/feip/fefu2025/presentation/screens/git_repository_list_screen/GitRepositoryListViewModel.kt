@@ -27,26 +27,69 @@ class GitRepositoryListViewModel @Inject constructor(
 
     init {
         getGitRepositoryList()
+        getMyStars()
     }
 
-    private fun getGitRepositoryList() {
-        getGitRepositoryListUseCase().onEach { result ->
+    fun getGitRepositoryList(
+        perPage: Int = 10,
+        search: String = ""
+    ) {
+        getGitRepositoryListUseCase(
+            perPage = perPage,
+            page = state.value.currentPage,
+            search = search
+        ).onEach { result ->
             when(result) {
                 is Resource.Success -> {
-                    _state.value = GitRepositoryListState(gitRepositoryList = result.data ?: emptyList())
+                    _state.value = _state.value.copy(
+                        gitRepositoryList = result.data?.gitRepositoryList ?: emptyList(),
+                        error = "",
+                        isLoading = false,
+                        hasNextPage = result.data?.hasNextPage ?: false
+                    )
                 }
                 is Resource.Error -> {
-                    _state.value = GitRepositoryListState(error = result.message ?: "Unexpected error in GitRepositoryListViewModel")
+                    _state.value = _state.value.copy(
+                        error = result.message ?: "Unexpected error in GitRepositoryListViewModel",
+                        isLoading = false
+                    )
                 }
                 is Resource.Loading -> {
-                    _state.value = GitRepositoryListState(isLoading = true)
+                    _state.value = _state.value.copy(
+                        isLoading = true
+                    )
                 }
             }
         }.launchIn(viewModelScope)
     }
 
-    fun reloadData() {
-        getGitRepositoryList()
+    fun getMyStars() {
+        getGitRepositoryListUseCase(
+            perPage = 10,
+            page = 1,
+            starred = true
+        ).onEach { result ->
+            when(result) {
+                is Resource.Success -> {
+                    _state.value = _state.value.copy(
+                        myStars = result.data?.gitRepositoryList ?: emptyList(),
+                        error = "",
+                        isLoading = false
+                    )
+                }
+                is Resource.Error -> {
+                    _state.value = _state.value.copy(
+                        error = result.message ?: "Unexpected error in GitRepositoryListViewModel",
+                        isLoading = false
+                    )
+                }
+                is Resource.Loading -> {
+                    _state.value = _state.value.copy(
+                        isLoading = true
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun navigateToGitRepositoryDetailScreen(id: Int) {
@@ -59,5 +102,9 @@ class GitRepositoryListViewModel @Inject constructor(
         viewModelScope.launch {
             _navigationEvent.emit(Destination.MyStarsScreen)
         }
+    }
+
+    fun changePage(newPage: Int) {
+        _state.value = _state.value.copy(currentPage = newPage)
     }
 }
